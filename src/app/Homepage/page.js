@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
@@ -19,24 +19,29 @@ const Homepage = () => {
     arrows: false,
     beforeChange: (oldIndex, newIndex) => setActiveSlide(newIndex),
   };
+  useEffect(() => {
+    console.log("Active Slide Index:", activeSlide);
+    console.log("Active Slide Data:", slides[activeSlide]); // Log the current slide's data
+  }, [activeSlide]);
+  
 
   const slides = [
     {
-      id: 1,
+      id: 0,
       title: "Fresh Bread Everyday",
       description: "Order today and receive your package tomorrow by efway",
       img: "/images/greenslide.jpg",
       bgColor: "#7B9A23", // Green
     },
     {
-      id: 2,
-      title: "Fresh Bread Everyday",
+      id: 1,
+      title: "Super Delicious Burger",
       description: "Order today and receive your package tomorrow by efway",
       img: "/images/burger.jpeg",
       bgColor: "#D48D3D", // orange
     },
     {
-      id: 3,
+      id: 2,
       title: "Fresh Bread Everyday",
       description: "Order today and receive your package tomorrow by efway",
       img: "/images/green2.jpeg",
@@ -155,7 +160,7 @@ const Homepage = () => {
                 <motion.div
                   key={activeSlide}
                   className="w-1/2 relative max-h-[650px]"
-                  style={{ backgroundColor: slides[activeSlide].bgColor }}
+                  style={{ backgroundColor: slides[activeSlide]?.bgColor }} 
                   initial={{ x: 300, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   exit={{ x: -300, opacity: 0 }}
