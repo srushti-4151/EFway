@@ -206,7 +206,7 @@ const Homepage = () => {
         />
       </div>
 
-      <div className="md:hidden lg:block block pt-[100px] z-20">
+      <div className="md:hidden lg:hidden block pt-[100px] z-20">
         <div className="max-w-[1940px] mx-auto lg:min-h-[650px] md:h-[550px] relative overflow-hidden">
           <Slider ref={sliderRef} {...settings}>
             {slides.map((slide) => (
