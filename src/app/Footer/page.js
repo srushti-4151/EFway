@@ -32,7 +32,7 @@ const Footer = () => {
               {/* Logo & Description */}
               <div className="w-full flex flex-col items-center md:items-start">
                 <img
-                  src="/images/logo.svg"
+                  src="/images/logo-black.svg"
                   alt="Logo"
                   className="h-11 w-auto mb-[33px]"
                 />

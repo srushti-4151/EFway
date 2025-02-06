@@ -8,6 +8,7 @@ import FeaturedProducts from "./FeaturedProducts/page";
 import Banner from "./Banner/Banner";
 import Blog from "./Blog/page";
 import Footer from "./Footer/page";
+import MobileFooterBar from "./MobileFooterBar/MobileFooterBar";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
           <Banner />
           <Blog/>
           <Footer />
+          <MobileFooterBar />
         </div>
     </>
   );
