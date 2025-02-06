@@ -309,13 +309,13 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="md:hidden absolute top-0 left-0 px-7 py-7 flex items-center justify-between bg-transparent w-full z-50">
-        <img src="/images/logo-white.svg" alt="Logo" className="h-11 w-auto" />
+      <div className="md:hidden absolute top-0 left-0 px-7 py-7 flex items-center justify-between bg-[#F2F4EC] w-full z-50">
+        <img src="/images/logo-black.svg" alt="Logo" className="h-11 w-auto" />
         <div className="md:hidden">
           {/* Hamburger Button */}
           <button
             onClick={() => setMenuOpen(true)}
-            className="text-3xl text-white"
+            className="text-3xl text-[#000]"
           >
             <IoMenu />
           </button>
