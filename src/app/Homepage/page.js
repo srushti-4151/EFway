@@ -19,10 +19,10 @@ const Homepage = () => {
     arrows: false,
     beforeChange: (oldIndex, newIndex) => setActiveSlide(newIndex),
   };
-  useEffect(() => {
-    console.log("Active Slide Index:", activeSlide);
-    console.log("Active Slide Data:", slides[activeSlide]); // Log the current slide's data
-  }, [activeSlide]);
+  // useEffect(() => {
+  //   console.log("Active Slide Index:", activeSlide);
+  //   console.log("Active Slide Data:", slides[activeSlide]); // Log the current slide's data
+  // }, [activeSlide]);
   
 
   const slides = [
