@@ -25,12 +25,12 @@ const Banner = () => {
                           </p>
                         </div>
                         <div className="pb-[22px]">
-                          <sapn className="text-[#f6a64d] mr-3 text-[20px] font-semibold w-auto">
+                          <span className="text-[#f6a64d] mr-3 text-[20px] font-semibold w-auto">
                             $17.99
-                          </sapn>
-                          <sapn className="text-[#fff] text-[20px] font-semibold w-auto">
+                          </span>
+                          <span className="text-[#fff] text-[20px] font-semibold w-auto">
                             $17.99
-                          </sapn>
+                          </span>
                         </div>
                         <div className="flex flex-col lg:flex-row md:flex-row gap-4 pb-[22px] items-start justify-start">
                           <p className="text-white font-poppins text-base font-medium leading-6 max-w-full text-start">

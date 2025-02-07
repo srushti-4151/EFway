@@ -8,15 +8,24 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { IoMenu } from "react-icons/io5";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-
+import { useDispatch, useSelector } from "react-redux";
+import { RxCross2 } from "react-icons/rx";
+import { removeCart } from "../redux/slices/cartSlice";
+import Swal from "sweetalert2";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [submenu, setSubmenu] = useState(null);
+  const cart = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
+  const totalAmount = cart.reduce(
+    (acc, item) => acc + item.caloriesPerServing * item.quantity,
+    0
+  );
 
   const menuItems = [
-    { name: "Home", hasSubmenu: true  },
-    { name: "Shop"},
+    { name: "Home", hasSubmenu: true },
+    { name: "Shop" },
     { name: "Pages", hasSubmenu: true },
     { name: "Blog", hasSubmenu: true },
     { name: "On Sale" },
@@ -30,9 +39,26 @@ const Header = () => {
     Blog: ["Latest News", "Fashion Tips", "Trends"],
   };
 
+  const handleRemove = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to remove this product from your cart?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(removeCart(id));
+        Swal.fire("Removed!", "The product has been removed.", "success");
+      }
+    });
+  }
+
   return (
     <>
-      <div className="absolute top-0 left-0 px-7 py-7 md:flex lg:flex hidden items-center justify-between bg-transparent w-full z-50">
+      <div className="absolute top-0 left-0 px-7 py-4 md:flex lg:flex hidden items-center justify-between bg-transparent w-full z-50">
         <img src="/images/logo-white.svg" alt="Logo" className="h-11 w-auto" />
 
         {/* Menu Items */}
@@ -227,23 +253,23 @@ const Header = () => {
           </li>
         </ul>
 
-        <div className="flex items-center gap-5 text-white">
+        <div className="flex items-center justify-center gap-1 text-white">
           {/* Group container for login with hover to show the form */}
-          <div className="relative group">
+          <div className="relative group p-2">
             <Link href="/login" className="group">
-              <div className="flex items-center gap-3 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out">
+              <div className="flex items-center gap-2 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out">
                 <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
                   <GoPerson className="text-2xl text-black group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" />
                 </div>
                 <div className="leading-5 text-base">
-                  Login or
+                  Login <span className="text-[#8ba73b]">or</span>
                   <br /> Register{" "}
                 </div>
               </div>
             </Link>
 
             {/* Hidden form that appears on hover */}
-            <div className="absolute top-full right-0 hidden group-hover:block bg-white shadow-lg p-6 rounded-md mt-2 w-[300px]">
+            <div className="absolute top-full right-0 hidden group-hover:block bg-white shadow-lg p-6 rounded-md w-[300px]">
               <div className="flex justify-between items-end mb-1">
                 <span className="text-[#000] text-2xl">Signin</span>
                 <span className="text-[#8ba73b] text-sm">
@@ -284,28 +310,95 @@ const Header = () => {
             </div>
           </div>
 
-          <Link href="/wishlist" className="group">
-            <div className="flex items-center gap-3 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out">
-              <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
-                <CiHeart className="text-3xl text-black absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out" />
-                <div className="absolute top-0 -right-3 w-6 h-6 bg-orange-400 text-white text-xs flex justify-center items-center rounded-full">
-                  0
+          <div className="relative group p-2">
+            <Link href="/wishlist" className="group">
+              <div className="flex items-center gap-3 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out">
+                <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
+                  <CiHeart className="text-3xl text-black absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out" />
+                  <div className="absolute top-0 -right-3 w-6 h-6 bg-orange-400 text-white text-xs flex justify-center items-center rounded-full">
+                    0
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
 
-          <Link href="/cart" className="group ml-1">
-            <div className="flex items-center gap-3 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out">
-              <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
-                <IoBagHandleOutline className="text-2xl text-black absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out" />
-                <div className="absolute top-0 -right-3 w-6 h-6 bg-[#8ba73b] text-white text-xs flex justify-center items-center rounded-full">
-                  0
+          <div className="relative group p-2">
+            <Link href="/login" className="group">
+              <div className="flex items-center gap-2 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out">
+                <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
+                  <IoBagHandleOutline className="text-2xl text-black group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" />
+                  <div className="absolute top-0 -right-3 w-6 h-6 bg-[#8ba73b] text-white text-xs flex justify-center items-center rounded-full">
+                    {cart.length || 0}
+                  </div>
+                </div>
+                <div className="leading-5 text-sm ml-1">
+                  ${totalAmount.toFixed(2) || 0}
                 </div>
               </div>
-              <span className="text-sm ml-1">$0.00</span>
+            </Link>
+
+            {/* Hidden form that appears on hover */}
+            <div className="absolute top-full right-0 border-t border-black hidden group-hover:block bg-white shadow-lg rounded-md w-[330px]">
+              <h3 className="text-[16px] text-[#000] border-b flex items-center justify-end px-5 py-4">
+                Subtotal:{" "}
+                <span className="text-[#000] font-semibold">
+                  ${totalAmount.toFixed(2)}
+                </span>
+              </h3>
+              <div className="mt-2 space-y-3">
+                {cart.length > 0 ? (
+                  cart.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between border-b text-[#000] px-5 py-4"
+                    >
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-10 h-10 object-cover rounded-md"
+                        />
+                        <div>
+                          <p className="text-[15px] font-semibold pb-1">
+                            {item.name}
+                          </p>
+                          <p className="text-gray-500 text-[15px]">
+                            {item.quantity}{" "}
+                            <RxCross2 size={13} className="inline-block" />
+                            <span className="text-[#D48D3D]">
+                              {" "}
+                              ${item.caloriesPerServing.toFixed(2) || 0}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                      onClick={() => handleRemove(item.id)}
+                      className="text-black text-sm">
+                        <RxCross2 />
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500">
+                    Your cart is empty
+                  </p>
+                )}
+              </div>
+              <div className="flex justify-between px-5 py-4">
+                <Link
+                  href="/cart"
+                  className="px-4 py-2 border bg-[#fff] text-[#8ba73b] hover:bg-[#728a31] hover:text-[#fff] rounded-3xl text-sm transition-all duration-500"
+                >
+                  View Cart
+                </Link>
+                <button className="px-4 py-2 bg-[#8ba73b] text-white hover:bg-[#728a31] rounded-3xl text-sm">
+                  Checkout
+                </button>
+              </div>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
 
@@ -360,7 +453,7 @@ const Header = () => {
                     onClick={() => setSubmenu(null)}
                     className="flex items-center justify-center text-lg mb-4"
                   >
-                    <FaChevronLeft className="mr-2" /> 
+                    <FaChevronLeft className="mr-2" />
                   </button>
                   <ul className="space-y-4 text-lg">
                     {submenus[submenu]?.map((subItem, index) => (

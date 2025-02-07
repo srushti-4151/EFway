@@ -6,6 +6,9 @@ import { GoGitCompare } from "react-icons/go";
 import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify"; 
+import { addCart } from "../redux/slices/cartSlice";
 
 const FeaturedProducts = () => {
   // const products = [
@@ -38,11 +41,18 @@ const FeaturedProducts = () => {
   //     image: "/images/product1.jpg",
   //   },
   // ];
-  const [tags, setTags] = useState([]); 
-  const [activeTag, setActiveTag] = useState("Pizza"); 
+  const [tags, setTags] = useState([]);
+  const [activeTag, setActiveTag] = useState("Pizza");
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
- 
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (recipe) => {
+      dispatch(addCart(({ ...recipe, quantity: 1 })));
+      toast.success("Added to Cart!");
+  };
+
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -54,7 +64,7 @@ const FeaturedProducts = () => {
     };
 
     fetchTags();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -74,14 +84,18 @@ const FeaturedProducts = () => {
     };
 
     if (tags.length > 0) {
-      fetchRecipes(); 
+      fetchRecipes();
     }
-  }, [activeTag, tags]); 
+  }, [activeTag, tags]);
 
   useEffect(() => {
     console.log("Updated recipes:", recipes);
     console.log("Tags:", tags);
   }, [recipes]);
+
+  const formatProductNameForURL = (name) => {
+    return name.toLowerCase().replace(/\s+/g, "-").replace(/-/g, "~");
+  };
 
   return (
     <>
@@ -131,11 +145,14 @@ const FeaturedProducts = () => {
                     />
 
                     {/* Hover Button */}
-                    <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Link
+                      href={`/product/${formatProductNameForURL(recipe.name)}`}
+                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
                       <div className="w-10 h-10 rounded-full flex justify-center items-center bg-[#8BA73B] text-white text-xl shadow-lg hover:bg-[#6f8e2e]">
                         <CiSearch size={20} />
                       </div>
-                    </button>
+                    </Link>
                   </div>
 
                   <div className="mt-5 mb-1">
@@ -155,7 +172,9 @@ const FeaturedProducts = () => {
                     </div>
 
                     <div className="flex flex-row mt-9 justify-between">
-                      <button className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1">
+                      <button 
+                       onClick={() => handleAddToCart(recipe)}
+                      className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1">
                         <CiShoppingCart size={16} className="inline-block" />
                         <span className="leading-none">ADD TO CART</span>
                       </button>
