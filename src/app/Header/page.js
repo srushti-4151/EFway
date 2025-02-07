@@ -269,7 +269,7 @@ const Header = () => {
             </Link>
 
             {/* Hidden form that appears on hover */}
-            <div className="absolute top-full right-0 hidden group-hover:block bg-white shadow-lg p-6 rounded-md w-[300px]">
+            <div className="absolute top-full right-0 invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-white shadow-lg p-6 rounded-md w-[300px] transition-opacity duration-500 ease-in-out">
               <div className="flex justify-between items-end mb-1">
                 <span className="text-[#000] text-2xl">Signin</span>
                 <span className="text-[#8ba73b] text-sm">
@@ -339,7 +339,7 @@ const Header = () => {
             </Link>
 
             {/* Hidden form that appears on hover */}
-            <div className="absolute top-full right-0 border-t border-black hidden group-hover:block bg-white shadow-lg rounded-md w-[330px]">
+            <div className="absolute top-full right-0 invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-white shadow-lg rounded-md w-[330px] transition-opacity duration-500 ease-in-out">
               <h3 className="text-[16px] text-[#000] border-b flex items-center justify-end px-5 py-4">
                 Subtotal:{" "}
                 <span className="text-[#000] font-semibold">
