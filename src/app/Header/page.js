@@ -408,7 +408,7 @@ const Header = () => {
           {/* Hamburger Button */}
           <button
             onClick={() => setMenuOpen(true)}
-            className="text-3xl text-[#000]"
+            className="text-xl text-[#000]"
           >
             <IoMenu />
           </button>
@@ -422,7 +422,7 @@ const Header = () => {
             {/* Close Button */}
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-4 right-4 text-2xl"
+              className="absolute top-4 right-4 text-lg"
             >
               <IoClose />
             </button>
@@ -439,7 +439,7 @@ const Header = () => {
                       <span>{item.name}</span>
                       {item.hasSubmenu && (
                         <button onClick={() => setSubmenu(item.name)}>
-                          <FaChevronRight />
+                          <FaChevronRight size={12}/>
                         </button>
                       )}
                     </li>
@@ -453,7 +453,7 @@ const Header = () => {
                     onClick={() => setSubmenu(null)}
                     className="flex items-center justify-center text-lg mb-4"
                   >
-                    <FaChevronLeft className="mr-2" />
+                    <FaChevronLeft size={12} className="mr-2" />
                   </button>
                   <ul className="space-y-4 text-lg">
                     {submenus[submenu]?.map((subItem, index) => (

@@ -67,6 +67,19 @@ const Homepage = () => {
                   <div className="w-1/2 px-8 pt-5 relative z-50">
                     <div className="2xl:max-w-[589px] lg:max-w-[520px] md:max-w-[290px] absolute 2xl:right-30 lg:right-36 md:right-20">
                       <div className="relative 2xl:pt-7 lg:pt-4 pt-0">
+                        {/* Left Leaf */}
+                        {/* <motion.img
+                          src="/images/leafsmall.png"
+                          alt="Leaf Left"
+                          className="absolute top-3 left-10 w-[43px] h-[41px]"
+                          initial={{ x: 100, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          // exit={{ x: -100, opacity: 0 }}
+                          transition={{
+                            x: { duration: 1.5, ease: "easeOut" },
+                            opacity: { duration: 1.5, ease: "easeInOut" },
+                          }}
+                        /> */}
                         <motion.div
                           key={activeSlide} // key prop ensures the animation restarts on slide change
                           className="relative !flex !flex-col !items-center !justify-center"
@@ -74,6 +87,19 @@ const Homepage = () => {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.8, ease: "easeOut" }}
                         >
+                          {/* Left Leaf */}
+                          <motion.img
+                            src="/images/leafsmall.png"
+                            alt="Leaf Left"
+                            className="absolute top-3 left-10 w-[43px] h-[41px]"
+                            initial={{ x: 100, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            // exit={{ x: -100, opacity: 0 }}
+                            transition={{
+                              x: { duration: 1.5, ease: "easeOut" },
+                              opacity: { duration: 1.5, ease: "easeInOut" },
+                            }}
+                          />
                           <img
                             src="/images/burgerslide.png" // Ensure this is the correct image path
                             alt="Burger Slide"
@@ -136,18 +162,19 @@ const Homepage = () => {
                     <div className="2xl:max-w-[450px] lg:max-w-[470px] md:max-w-[290px] absolute 2xl:right-64 lg:right-40 md:right-20">
                       <div className="relative 2xl:pt-10 pt-0">
                         {/* Left Leaf */}
-                        <img
+                        {/* <motion.img
                           src="/images/leafsmall.png"
                           alt="Leaf Left"
                           className="absolute top-3 left-72 w-[43px] h-[41px]"
-                        />
+                          initial={{ x: 100, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          // exit={{ x: -100, opacity: 0 }}
+                          transition={{
+                            x: { duration: 1.5, ease: "easeOut" },
+                            opacity: { duration: 1.5, ease: "easeInOut" },
+                          }}
+                        /> */}
 
-                        {/* Middle Leaf */}
-                        <img
-                          src="/images/bigleaf.png"
-                          alt="Leaf Middle"
-                          className="absolute top-[20%] right-4 translate-x-80 w-[94px]"
-                        />
                         <motion.div
                           key={activeSlide} // key prop ensures the animation restarts on slide change
                           className="relative"
@@ -155,6 +182,19 @@ const Homepage = () => {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.8, ease: "easeOut" }}
                         >
+                          {/* Left Leaf */}
+                          <motion.img
+                            src="/images/leafsmall.png"
+                            alt="Leaf Left"
+                            className="absolute -top-2 left-72 w-[43px] h-[41px]"
+                            initial={{ x: 100, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            // exit={{ x: -100, opacity: 0 }}
+                            transition={{
+                              x: { duration: 1.5, ease: "easeOut" },
+                              opacity: { duration: 1.5, ease: "easeInOut" },
+                            }}
+                          />
                           <motion.span
                             className="font-[Satisfy] text-[#8BA73B] block lg:text-[32px] md:text[22px] font-normal capitalize italic py-4"
                             initial={{ opacity: 0, y: 20 }}
@@ -236,7 +276,7 @@ const Homepage = () => {
                 {/* Right Side Image with Animation */}
                 <motion.div
                   key={activeSlide}
-                  className="w-1/2 relative lg:max-h-[650px] 2xl:max-h-[740px]"
+                  className="w-1/2 relative lg:max-h-[650px] 2xl:max-h-[740px] z-10"
                   style={{ backgroundColor: slides[activeSlide]?.bgColor }}
                   initial={{ x: 300, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -250,10 +290,23 @@ const Homepage = () => {
                     key={activeSlide}
                     src={slides[activeSlide]?.img}
                     alt="Slide Image"
-                    className="w-[946px] lg:h-[650px] 2xl:h-[740px] object-contain"
+                    className="w-[946px] lg:h-[650px] 2xl:h-[740px] object-contain z-20"
                     initial={{ x: 200, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: -200, opacity: 0 }}
+                    transition={{
+                      x: { duration: 1.5, ease: "easeOut" },
+                      opacity: { duration: 1.5, ease: "easeInOut" },
+                    }}
+                  />
+                  {/* Middle Leaf */}
+                  <motion.img
+                    src="/images/bigleaf.png"
+                    alt="Leaf Middle"
+                    className="absolute top-[20%] -left-10 w-[94px] z-40"
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -50, opacity: 0 }}
                     transition={{
                       x: { duration: 1.5, ease: "easeOut" },
                       opacity: { duration: 1.5, ease: "easeInOut" },
@@ -324,6 +377,32 @@ const Homepage = () => {
                     initial={{ x: 200, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: -200, opacity: 0 }}
+                    transition={{
+                      x: { duration: 1.5, ease: "easeOut" },
+                      opacity: { duration: 1.5, ease: "easeInOut" },
+                    }}
+                  />
+                  {/* Left Leaf */}
+                  <motion.img
+                    src="/images/leafsmall.png"
+                    alt="Leaf Left"
+                    className="absolute top-6 left-14 w-[43px] h-[41px]"
+                    initial={{ x: 100, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    // exit={{ x: -100, opacity: 0 }}
+                    transition={{
+                      x: { duration: 1.5, ease: "easeOut" },
+                      opacity: { duration: 1.5, ease: "easeInOut" },
+                    }}
+                  />
+                  {/* Middle Leaf */}
+                  <motion.img
+                    src="/images/bigleaf.png"
+                    alt="Leaf Middle"
+                    className="absolute top-[83%] left-14 w-[41px] z-40"
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -50, opacity: 0 }}
                     transition={{
                       x: { duration: 1.5, ease: "easeOut" },
                       opacity: { duration: 1.5, ease: "easeInOut" },
