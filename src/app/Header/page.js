@@ -324,7 +324,7 @@ const Header = () => {
           </div>
 
           <div className="relative group p-2">
-            <Link href="/login" className="group">
+            <Link href="/cart" className="group">
               <div className="flex items-center gap-2 group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out">
                 <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
                   <IoBagHandleOutline className="text-2xl text-black group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" />

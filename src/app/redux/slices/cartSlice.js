@@ -50,10 +50,12 @@ const cartSlice = createSlice({
     updateQuantity: (state, action) => {
       const item = state.cart.find((item) => item.id === action.payload.id);
       if (item) {
-        item.quantity = action.payload.quantity; // Set new quantity from UI
+        item.quantity = action.payload.quantity;
       }
+      state.productCount = state.cart.length;
       saveCartToLocalStorage(state.cart);
     },
+    
 
     clearCart: (state) => {
       state.cart = [];
