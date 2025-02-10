@@ -7,7 +7,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 import { addCart } from "../redux/slices/cartSlice";
 
 const FeaturedProducts = () => {
@@ -49,8 +49,8 @@ const FeaturedProducts = () => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (recipe) => {
-      dispatch(addCart(({ ...recipe, quantity: 1 })));
-      toast.success("Added to Cart!");
+    dispatch(addCart({ ...recipe, quantity: 1 }));
+    toast.success("Added to Cart!");
   };
 
   useEffect(() => {
@@ -119,6 +119,20 @@ const FeaturedProducts = () => {
               </button>
             ))}
           </div>
+          {/* Dropdown for Tags */}
+          <div className="md:hidden px-5 mt-4 mb-2">
+            <select
+              value={activeTag}
+              onChange={(e) => setActiveTag(e.target.value)}
+              className="w-1/2 p-2 border border-gray-300 rounded-md text-gray-800 bg-white"
+            >
+              {tags.slice(0, 8).map((tag) => (
+                <option key={tag} value={tag} className="text-sm">
+                  {tag}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <hr className="border-t border-gray-300 mx-5" />
 
@@ -172,9 +186,10 @@ const FeaturedProducts = () => {
                     </div>
 
                     <div className="flex flex-row mt-9 justify-between">
-                      <button 
-                       onClick={() => handleAddToCart(recipe)}
-                      className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => handleAddToCart(recipe)}
+                        className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1"
+                      >
                         <CiShoppingCart size={16} className="inline-block" />
                         <span className="leading-none">ADD TO CART</span>
                       </button>

@@ -48,7 +48,7 @@ const MobileFooterBar = () => {
         <li className="flex-1 text-center">
           <Link href="/cart" className="flex flex-col items-center text-gray-300 relative">
             <IoBagHandleOutline size={34} />
-            <span className="absolute top-0 right-4 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+            <span className="absolute top-0 right-8 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
               0
             </span>
           </Link>

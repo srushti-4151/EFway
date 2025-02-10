@@ -89,9 +89,17 @@ const Secondsection = () => {
                   <span className="text-[#8ba73b] text-[18px]">
                     {feature.icon}
                   </span>
-                  <h3 className="text-gray-800 hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold mt-2 text-[18px]">
+
+                  <h3 className="md:block hidden text-gray-800 hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold mt-2 text-[18px]">
                     {feature.title1}
                     <br />
+                    {feature.title2}
+                  </h3>
+
+                  <h3 className="text-gray-800 md:hidden block  hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold mt-2 text-[18px]">
+                    {feature.title1}
+                  </h3>
+                  <h3 className="text-gray-800 md:hidden block hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold md:mt-0 mt-[3px] text-[18px]">
                     {feature.title2}
                   </h3>
                 </div>
@@ -246,7 +254,7 @@ const Secondsection = () => {
         </div>
       </div>
 
-      <div className="lg:hidden md:hidden relative w-full grid grid-cols-1 gap-7 mt-[40px] mb-[80px] py-5 px-4 z-10">
+      <div className="lg:hidden md:hidden relative w-full grid grid-cols-1 gap-7 mt-[180px] mb-[80px] py-5 px-4 z-10">
         {cardData.map((item, index) => (
           <div
             key={index}
