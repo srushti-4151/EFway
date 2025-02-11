@@ -320,7 +320,7 @@ const Homepage = () => {
         {/* French Fries Image - Positioned Absolutely */}
         <motion.img
           key={activeSlide}
-          src="/images/re_frenchf.png"
+          src="/images/blog3.png"
           alt="French Fries"
           className="absolute bottom-[90px] -z-10 left-[-100px] w-[245px] h-[230px]"
           initial={{ y: 100, opacity: 0 }}

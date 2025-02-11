@@ -341,7 +341,7 @@ const Header = () => {
             {/* Hidden form that appears on hover */}
             <div className="absolute top-full right-0 invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-white shadow-lg rounded-md w-[330px] transition-opacity duration-500 ease-in-out">
               <h3 className="text-[16px] text-[#000] border-b flex items-center justify-end px-5 py-4">
-                Subtotal:{" "}
+                <span className="mr-2">Subtotal:</span>
                 <span className="text-[#000] font-semibold">
                   ${totalAmount.toFixed(2)}
                 </span>
