@@ -54,7 +54,7 @@ const Homepage = () => {
       style={{ backgroundImage: "url('/images/herobg.jpg')" }}
     >
       <Header />
-      <div className="md:block lg:block hidden pt-[100px] z-20">
+      <div className="md:hidden lg:block hidden pt-[100px] z-20">
         <div className="max-w-[1940px] mx-auto 2xl:min-h-[740px] lg:min-h-[650px] md:h-[550px] relative overflow-hidden">
           <Slider ref={sliderRef} {...settings}>
             {slides.map((slide) => (
@@ -65,7 +65,7 @@ const Homepage = () => {
                 {/* Left Side Text */}
                 {activeSlide === 1 ? (
                   <div className="w-1/2 px-8 pt-5 relative z-50">
-                    <div className="2xl:max-w-[589px] lg:max-w-[520px] md:max-w-[290px] absolute 2xl:right-30 lg:right-36 md:right-20">
+                    <div className="2xl:max-w-[589px] lg:max-w-[520px] md:max-w-[290px] absolute 2xl:right-[172px] lg:right-[110px] md:right-20">
                       <div className="relative 2xl:pt-7 lg:pt-4 pt-0">
                         {/* Left Leaf */}
                         {/* <motion.img
@@ -134,7 +134,7 @@ const Homepage = () => {
                         </motion.div>
 
                         {/* Navigation Buttons */}
-                        <div className="absolute 2xl:translate-y-36 lg:translate-y-16 md:translate-y-20 left-0 flex gap-3">
+                        <div className="absolute 2xl:translate-y-[137px] lg:translate-y-[85px] md:translate-y-20 left-0 flex gap-3">
                           <button
                             onClick={() => sliderRef.current.slickPrev()}
                             className="w-[65px] h-[65px] border border-white hover:bg-[#8BA73B] transition-all duration-300 rounded-full flex items-center justify-center"
@@ -342,7 +342,7 @@ const Homepage = () => {
         />
       </div>
 
-      <div className="md:hidden lg:hidden block pt-[100px] z-20">
+      <div className="md:block lg:hidden block pt-[100px] z-20">
         <div className="max-w-[1940px] mx-auto min-h-[500px] relative overflow-hidden">
           <Slider ref={sliderRef} {...settings}>
             {slides.map((slide) => (

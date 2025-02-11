@@ -18,7 +18,7 @@ const Blog = () => {
         title: "Cleansing the Body of Parasites",
         date: "June 19, 2020",
         comments: "3 Comments",
-        image: "/images/blog1.jpg",
+        image: "/images/blog2.jpeg",
         link: "/blog/cleansing-body-parasites",
       },
       {
@@ -27,7 +27,7 @@ const Blog = () => {
         title: "Keeping Your Fruits and Veggies",
         date: "June 19, 2020",
         comments: "3 Comments",
-        image: "/images/blog1.jpg",
+        image: "/images/blog13.jpeg",
         link: "/blog/keeping-fruits-veggies",
       },
       {
@@ -36,7 +36,7 @@ const Blog = () => {
         title: "Tips for Washing Fresh Fruits – Standard",
         date: "June 19, 2020",
         comments: "3 Comments",
-        image: "/images/blog1.jpg",
+        image: "/images/blog4.jpeg",
         link: "/blog/washing-fresh-fruits",
       },
   ];
@@ -85,7 +85,7 @@ const Blog = () => {
               </div>
             ))}
           </div> */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 lg:px-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
             {blogs.map((blog) => (
               <div
                 key={blog.id}

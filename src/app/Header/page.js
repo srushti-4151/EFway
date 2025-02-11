@@ -58,7 +58,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="absolute top-0 left-0 px-7 py-4 md:flex lg:flex hidden items-center justify-between bg-transparent w-full z-50">
+      <div className="absolute top-0 left-0 px-7 py-4 md:flex hidden items-center justify-between bg-transparent w-full z-50">
         <img src="/images/logo-white.svg" alt="Logo" className="h-11 w-auto" />
 
         {/* Menu Items */}
@@ -402,7 +402,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="md:hidden absolute top-0 left-0 px-7 py-7 flex items-center justify-between bg-[#F2F4EC] w-full z-50">
+      <div className="lg:hidden absolute top-0 left-0 px-7 py-7 flex items-center justify-between bg-[#F2F4EC] w-full z-50">
         <img src="/images/logo-black.svg" alt="Logo" className="h-11 w-auto" />
         <div className="md:hidden">
           {/* Hamburger Button */}

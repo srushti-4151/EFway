@@ -47,14 +47,24 @@ const cartSlice = createSlice({
       saveCartToLocalStorage(state.cart);
     },
 
+    // updateQuantity: (state, action) => {
+    //   const item = state.cart.find((item) => item.id === action.payload.id);
+    //   if (item) {
+    //     item.quantity = action.payload.quantity;
+    //   }
+    //   state.productCount = state.cart.length;
+    //   saveCartToLocalStorage(state.cart);
+    // },
     updateQuantity: (state, action) => {
-      const item = state.cart.find((item) => item.id === action.payload.id);
-      if (item) {
-        item.quantity = action.payload.quantity;
-      }
+      state.cart = state.cart.map((item) =>
+        item.id === action.payload.id
+          ? { ...item, quantity: action.payload.quantity } // Create a new object to trigger state change
+          : item
+      );
       state.productCount = state.cart.length;
       saveCartToLocalStorage(state.cart);
     },
+    
     
 
     clearCart: (state) => {
