@@ -90,20 +90,20 @@ const Secondsection = () => {
                     {feature.icon}
                   </span>
 
-                  <h3 className="md:block hidden text-gray-800 hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold mt-2 text-[18px]">
+                  <h3 className="md:block hidden text-[#27272f] hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold mt-2 text-[18px]">
                     {feature.title1}
                     <br />
                     {feature.title2}
                   </h3>
 
-                  <h3 className="text-gray-800 md:hidden block  hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold mt-2 text-[18px]">
+                  <h3 className="text-[#27272f] md:hidden block hover:text-[#8ba73b] tracking-wider lg:text-left md:text-left text-center font-semibold mt-2 text-[18px]">
                     {feature.title1}
+                    <br/>
+                    <span className="mt-2 block">{feature.title2}</span>
                   </h3>
-                  <h3 className="text-gray-800 md:hidden block hover:text-[#8ba73b] lg:text-left md:text-left text-center font-semibold md:mt-0 mt-[3px] text-[18px]">
-                    {feature.title2}
-                  </h3>
+
                 </div>
-                <p className="text-gray-600 mt-3 lg:text-left md:text-left text-center">{feature.description}</p>
+                <p className="text-gray-600 mt-5 text-[14px] lg:text-left md:text-left text-center">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -254,7 +254,7 @@ const Secondsection = () => {
         </div>
       </div>
 
-      <div className="lg:hidden md:hidden relative w-full grid grid-cols-1 gap-7 mt-[180px] mb-[80px] py-5 px-4 z-10">
+      <div className="lg:hidden md:hidden relative w-full grid grid-cols-1 gap-7 mt-[250px] mb-[90px] py-5 px-4 z-10">
         {cardData.map((item, index) => (
           <div
             key={index}

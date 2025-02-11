@@ -62,7 +62,7 @@ const Header = () => {
         <img src="/images/logo-white.svg" alt="Logo" className="h-11 w-auto" />
 
         {/* Menu Items */}
-        <ul className="flex text-[16px]">
+        <ul className="flex flex-wrap text-[16px]">
           {/* Home  */}
           <li className="relative group">
             <Link
@@ -91,7 +91,7 @@ const Header = () => {
           {/* Shop */}
           <li className="relative group">
             <Link
-              href="#"
+              href="/shop"
               className="text-[#fff] p-4 font-bold hover:text-[#8ba73b] transition-all duration-500 ease-in-out"
             >
               Shop

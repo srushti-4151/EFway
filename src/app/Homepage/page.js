@@ -48,6 +48,10 @@ const Homepage = () => {
     },
   ];
 
+  const goToSlide = (index) => {
+    sliderRef.current.slickGoTo(index);
+  };
+
   return (
     <div
       className="relative z-10 w-full bg-cover bg-center"
@@ -507,6 +511,44 @@ const Homepage = () => {
               </div>
             ))}
           </Slider>
+          {/* Custom Dots */}
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-7 flex justify-center mt-4">
+            {slides.map((slide, index) => (
+              <div
+                key={slide.id}
+                onClick={() => goToSlide(index)}
+                className="flex items-center justify-center transition-all duration-300 ease-in-out"
+                style={{
+                  width: "17px",
+                  height: "17px",
+                  borderRadius: "50%",
+                  backgroundColor:
+                    index === activeSlide ? "transparent" : "white",
+                  opacity: index === activeSlide ? "1" : "0.3",
+                  margin: "0 5px",
+                  cursor: "pointer",
+                  border:
+                    index === activeSlide
+                      ? "2px solid white"
+                      : "2px solid transparent",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {index === activeSlide && (
+                  <div
+                    style={{
+                      width: "5px",
+                      height: "5px",
+                      borderRadius: "50%",
+                      backgroundColor: "white",
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

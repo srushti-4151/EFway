@@ -8,64 +8,86 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { IoMenu } from "react-icons/io5";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { RxCross2 } from "react-icons/rx";
-import Swal from "sweetalert2";
-import { removeCart, updateQuantity } from "../redux/slices/cartSlice";
 import { FaHeadphones } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaHome } from "react-icons/fa";
+import { CiShoppingCart } from "react-icons/ci";
 import Footer from "../Footer/page";
-import { BsCartX } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { GoGitCompare } from "react-icons/go";
+import { CiSearch } from "react-icons/ci";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { addCart } from "../redux/slices/cartSlice";
+import { RxCross2 } from "react-icons/rx";
 
-
-const Cartpage = () => {
+const ShopePage = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [submenu, setSubmenu] = useState(null);
-  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const [quantities, setQuantities] = useState({});
-
-  const increaseQuantity = (itemId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemId]:
-        (prev[itemId] ||
-          cart.find((item) => item.id === itemId)?.quantity ||
-          1) + 1,
-    }));
-  };
-
-  const decreaseQuantity = (itemId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemId]: Math.max(
-        (prev[itemId] ||
-          cart.find((item) => item.id === itemId)?.quantity ||
-          1) - 1,
-        1
-      ),
-    }));
-  };
-
-  // const handleAddToCart = () => {
-  //   Object.entries(quantities).forEach(([id, quantity]) => {
-  //     dispatch(updateQuantity({ id, quantity }));
-  //   });
-  // };
-
-  const handleAddToCart = () => {
-    Object.entries(quantities).forEach(([id, quantity]) => {
-      dispatch(updateQuantity({ id: Number(id), quantity })); // Convert id to number
-    });
-  };
-  
-  
+  const [tags, setTags] = useState([]);
+  const [activeTag, setActiveTag] = useState("");
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [maxPrice, setMaxPrice] = useState(200);
 
   const totalAmount = cart.reduce(
     (acc, item) => acc + item.caloriesPerServing * item.quantity,
     0
   );
+
+  const dispatch = useDispatch();
+
+  // Add to cart function
+  const handleAddToCart = (recipe) => {
+    dispatch(addCart({ ...recipe, quantity: 1 }));
+    toast.success("Added to Cart!");
+  };
+
+  // Fetch tags
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const res = await axios.get("https://dummyjson.com/recipes/tags");
+        setTags(res.data);
+      } catch (err) {
+        console.error("Error fetching tags", err);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  // Fetch recipes
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get("https://dummyjson.com/recipes?limit=0");
+        let filteredRecipes = res.data.recipes;
+
+        // If tag is selecte then filter recipes
+        if (activeTag) {
+          filteredRecipes = filteredRecipes.filter((recipe) =>
+            recipe.tags.includes(activeTag)
+          );
+        }
+
+        setRecipes(filteredRecipes);
+      } catch (err) {
+        console.error("Error fetching recipes", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipes();
+  }, [activeTag]);
+
+  const formatProductNameForURL = (name) => {
+    return name.toLowerCase().replace(/\s+/g, "-").replace(/-/g, "~");
+  };
 
   const menuItems = [
     { name: "Home", hasSubmenu: true },
@@ -83,30 +105,13 @@ const Cartpage = () => {
     Blog: ["Latest News", "Fashion Tips", "Trends"],
   };
 
-  const handleRemove = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you really want to remove this product from your cart?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, remove it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(removeCart(id));
-        Swal.fire("Removed!", "The product has been removed.", "success");
-      }
-    });
-  };
-
   return (
     <>
       <div
-        className="w-full bg-top bg-contain bg-[#F2F4EC] bg-no-repeat overflow-hidden"
+        className="w-full bg-top bg-contain bg-[#F2F4EC] bg-no-repeat"
         style={{ backgroundImage: "url('/images/bg-body.png')" }}
       >
-        <div className="w-full max-w-[1440px] mx-auto px-[15px] mt-10 relative bg-transparent">
+        <div className="w-full max-w-[1440px] mx-auto px-[15px] pt-10 relative bg-transparent">
           {/* first part */}
           <div className="w-full lg:flex hidden border-b border-gray-300 z-50 bg-white">
             <div className="w-1/2 text-[#747474] text-[14px] py-3 pl-5">
@@ -338,7 +343,7 @@ const Cartpage = () => {
                 {/* Shop */}
                 <li className="relative group">
                   <Link
-                    href="/shop"
+                    href="#"
                     className="text-[#8ba73b] cursor-pointer p-4 py-[10px] px-[15px] font-bold hover:text-[#8ba73b] transition-all duration-500 ease-in-out"
                   >
                     Shop
@@ -591,232 +596,157 @@ const Cartpage = () => {
           </div>
         </div>
 
-        <div className="w-full max-w-[1410px] mx-auto px-4 mt-10 relative bg-transparent">
+        <div className="w-full max-w-[1440px] mx-auto px-4 mt-10 relative bg-transparent">
           <div className="flex flex-col justify-center items-start">
             <div className="flex mt-6 max-w-lg">
-              <div className="flex justify-center items-center mr-2 px-6 py-2 bg-white rounded-3xl">
+              <div className="flex justify-center items-center mr-2 px-6 py-1 bg-white rounded-3xl">
                 <Link href="/">
                   <FaHome className="text-gray-700" />
                 </Link>
               </div>
-              <div className="flex justify-center items-center mx-2 px-6 py-2 bg-white rounded-3xl">
-                <span className="text-[#8ba73b]">Cart</span>
+              <div className="flex justify-center items-center mx-2 px-6 py-1 bg-white rounded-3xl">
+                <button
+                  onClick={() => setActiveTag("")}
+                  className="text-gray-700 hover:text-[#8ba73b]"
+                >
+                  Products{" "}
+                </button>
               </div>
             </div>
 
             {/* Page Header */}
-            <h1 className="text-4xl mt-7 font-bold">Cart</h1>
+            <h1 className="text-4xl mt-7 font-bold">Shop</h1>
           </div>
         </div>
 
-        <div className="w-full max-w-[1410px] mx-auto px-4 mt-7 mb-10 relative bg-transparent container p-6">
-          {cart.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 bg-white">
-              {/* Cart Items */}
-              <div className="lg:col-span-2 bg-white p-4 rounded-lg py-[30px] px-[35px]">
-                <div className="overflow-x-auto">
-                  <table className="w-full hidden md:table border-collapse">
-                    <tbody>
-                      {cart.map((item) => {
-                        const quantity = quantities[item.id] ?? item.quantity;
-                        return (
-                          <tr key={item.id} className="border-b">
-                            {/* Remove Button */}
-                            <td className="text-center pt-[41px] pr-[25px] pb-[36px]">
-                              <button
-                                onClick={() => handleRemove(item.id)}
-                                className="text-black inline-block text-sm"
-                              >
-                                <RxCross2 />
-                              </button>
-                            </td>
-                            {/* Product Image */}
-                            <td className="flex items-center space-x-4 py-4 pt-[41px] pr-[25px] pb-[36px]">
-                              <img
-                                src={item.image}
-                                alt={item.name}
-                                className="w-16 h-16 rounded-lg"
-                              />
-                            </td>
-                            {/* Product Name */}
-                            <td className="pt-[41px] pr-[25px] pb-[36px] text-[#55555B]">
-                              {item.name}
-                            </td>
-                            {/* Price */}
-                            <td className="text-center pt-[41px] pr-[25px] pb-[36px] text-[#8B8B8B]">
-                              ${item.caloriesPerServing.toFixed(2)}
-                            </td>
-                            {/* Quantity */}
-                            <td className="text-center pt-[41px] pr-[25px] pb-[36px]">
-                              <div className="flex items-center justify-center border rounded-3xl">
-                                <button
-                                  onClick={() => decreaseQuantity(item.id)}
-                                  className="px-3 py-2 text-sm font-bold text-[#8B8B8B]"
-                                >
-                                  -
-                                </button>
-                                <span className="mx-5 text-lg text-[#8B8B8B]">
-                                  {quantity}
-                                </span>
-                                <button
-                                  onClick={() => increaseQuantity(item.id)}
-                                  className="px-3 py-2 text-sm font-bold text-[#8B8B8B]"
-                                >
-                                  +
-                                </button>
-                              </div>
-                            </td>
-                            {/* Subtotal */}
-                            <td className="text-right text-[#55555B] pt-[41px] pr-[25px] pb-[36px]">
-                              $
-                              {(
-                                item.caloriesPerServing * item.quantity
-                              ).toFixed(2)}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-
-                  {/* Mobile View */}
-                  <div className="md:hidden">
-                    <div className="border-b">
-                      {cart.map((item) => {
-                        const quantity = quantities[item.id] ?? item.quantity;
-                        return (
-                          <div
-                            key={item.id}
-                            className="p-4 bg-white border-b mb-5"
-                          >
-                            {/* Product Image */}
-                            <div className="flex justify-center pb-4">
-                              <img
-                                src={item.image}
-                                alt={item.name}
-                                className="w-24 h-24"
-                              />
-                            </div>
-
-                            {/* Product Details */}
-                            <div className="mt-4 space-y-2 text-[#55555B]">
-                              <div className="flex justify-between text-right pb-2">
-                                <span className="font-semibold">Product</span>
-                                <span>{item.name}</span>
-                              </div>
-
-                              <div className="flex justify-between pb-2">
-                                <span className="font-semibold">Price</span>
-                                <span>
-                                  ${item.caloriesPerServing.toFixed(2)}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between pb-2">
-                                <span className="font-semibold">Quantity</span>
-                                <div className="flex items-center border rounded-3xl px-2">
-                                  <button
-                                    onClick={() => decreaseQuantity(item.id)}
-                                    className="px-3 py-2 text-sm font-bold"
-                                  >
-                                    -
-                                  </button>
-                                  <span className="mx-4 text-lg text-[#626262]">
-                                    {quantity}
-                                  </span>
-                                  <button
-                                    onClick={() => increaseQuantity(item.id)}
-                                    className="px-3 py-2 text-sm font-bold"
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              </div>
-
-                              <div className="flex justify-between">
-                                <span className="font-semibold">Subtotal</span>
-                                <span className="font-bold">
-                                  $
-                                  {(
-                                    item.caloriesPerServing * item.quantity
-                                  ).toFixed(2)}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="py-10 bg-white flex md:flex-row flex-col items-center justify-start gap-4">
-                    <p className="text-[#414148]">Coupon: </p>
-                    <div className="flex items-center justify-between border rounded-full overflow-hidden shadow-sm">
-                      <input
-                        type="text"
-                        placeholder="Coupon code"
-                        className="flex-1 px-4 py-3 text-gray-700 placeholder-gray-400 outline-none"
-                      />
-
-                      <button className="px-4 py-3 bg-white text-gray-500">
-                        {">"}
-                      </button>
-                    </div>
-                    <button
-                      onClick={handleAddToCart}
-                      className="bg-[#E8E8E8] hover:bg-[#8BA73B] font-bold text-[#222222] hover:text-white px-5 py-3 rounded-3xl text-sm transition-all duration-300 uppercase"
+        <div className="w-full max-w-[1440px] mx-auto px-4 mt-10 pb-20 relative bg-transparent min-h-screen">
+          <div className="flex items-start gap-4 relative">
+            {/* Sidebar - Visible only on lg screens */}
+            <aside className="hidden lg:block w-1/4 sticky top-5 h-fit">
+              <div className="py-5 px-7 mb-[30px] shadow bg-white">
+                <h2 className="text-[18px] text-[#27272f] font-semibold mb-[18px] pb-[12px] border-b">
+                  PRODUCT CATEGORIES
+                </h2>
+                <ul className="text-gray-600">
+                  {tags.slice(0, 20).map((tag) => (
+                    <li
+                      key={tag}
+                      className={`hover:text-[#8ba73b] text-[14px] transition-all duration-300 py-[7px] cursor-pointer ${
+                        activeTag === tag ? "text-[#8ba73b] font-bold" : ""
+                      }`}
+                      onClick={() => setActiveTag(tag)}
                     >
-                      Upadte cart
-                    </button>
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="py-5 px-7 mb-[30px] shadow bg-white">
+                <h2 className="text-[18px] text-[#27272f] font-semibold mb-[18px] pb-[12px] border-b">
+                  FILTER BY PRICE
+                </h2>
+                <input
+                  type="range"
+                  min="30"
+                  max="200"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  className="w-full h-1 bg-black rounded-lg appearance-none cursor-pointer accent-black focus:outline-none focus:ring-none"
+                />
+                <p className="text-gray-600 mt-4">Price: $30 — ${maxPrice}</p>
+              </div>
+            </aside>
+
+            {/* Product Grid */}
+            <div className="flex-1 p-4 pt-0">
+              {/* <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-semibold">
+                  Active Filters:{" "}
+                  <span className="text-gray-500">Max ${maxPrice}</span>
+                </h2>
+                <button className="text-gray-500 underline">
+                  Clear Filters
+                </button>
+              </div> */}
+              {loading ? (
+                <div className="text-center py-10 w-full">
+                  <div className="flex justify-center items-center space-x-2">
+                    <div className="w-4 h-4 bg-black rounded-full animate-bounce"></div>
+                    <div className="w-4 h-4 bg-black rounded-full animate-bounce [animation-delay:-0.2s]"></div>
+                    <div className="w-4 h-4 bg-black rounded-full animate-bounce [animation-delay:-0.4s]"></div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {recipes.slice(0, 15).map((recipe) => (
+                    <div
+                      key={recipe.id}
+                      className="group p-6 relative transition-all ease-out duration-300 h-full flex flex-col bg-white rounded-md shadow-lg overflow-hidden mb-0"
+                    >
+                      <div className="relative overflow-hidden">
+                        <img
+                          src={recipe.image}
+                          alt={recipe.name}
+                          className="w-full h-full object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
+                        />
 
-              {/* Cart Totals (Now below for medium screens) */}
-              <div className="py-[30px] px-[15px] bg-white">
-                <div className="bg-[#F8F8F8] p-10 rounded-lg shadow">
-                  <h2 className="text-2xl font-bold pb-6 border-b text-[#000]">
-                    Cart Totals
-                  </h2>
+                        {/* Hover Button */}
+                        <Link
+                          href={`/product/${formatProductNameForURL(
+                            recipe.name
+                          )}`}
+                          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        >
+                          <div className="w-10 h-10 rounded-full flex justify-center items-center bg-[#8BA73B] text-white text-xl shadow-lg hover:bg-[#6f8e2e]">
+                            <CiSearch size={20} />
+                          </div>
+                        </Link>
+                      </div>
 
-                  <table className="w-full border-collapse">
-                    <tbody>
-                      <tr className="border-b">
-                        <td className="py-6 text-left text-[#55555B]">
-                          Subtotal:
-                        </td>
-                        <td className="py-6 text-left text-[#55555B]">
-                          ${totalAmount.toFixed(2)}
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="py-6 text-left text-[#55555B]">
-                          Total:
-                        </td>
-                        <td className="py-6 text-left font-bold text-xl">
-                          ${totalAmount.toFixed(2)}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      <div className="mt-5 mb-1">
+                        <div>
+                          <Link
+                            href={"#"}
+                            className="text-[13px] font-semibold leading-[28px] text-[#8BA73B] mt-4 italic"
+                          >
+                            {recipe.cuisine}
+                          </Link>
+                          <h3 className="text-[15px] font-bold text-gray-800 leading-[1.4] overflow-hidden max-h-[3em] h-[3em] hover:underline">
+                            <Link href={"#"}>{recipe.name}</Link>
+                          </h3>
+                          <p className="text-[#8BA73B] font-bold text-xl mt-1">
+                            ${recipe.caloriesPerServing}
+                          </p>
+                        </div>
 
-                  <button className="w-full mt-6 bg-[#8BA73B] hover:bg-[#768f31] text-white py-2 rounded-3xl text-sm transition-all duration-300">
-                    PROCEED TO CHECKOUT
-                  </button>
+                        <div className="flex flex-row mt-9 justify-between">
+                          <button
+                            onClick={() => handleAddToCart(recipe)}
+                            className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1"
+                          >
+                            <CiShoppingCart
+                              size={16}
+                              className="inline-block"
+                            />
+                            <span className="leading-none">ADD TO CART</span>
+                          </button>
+                          <div className="flex items-center text-gray-800">
+                            <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
+                              <CiHeart size={25} />
+                            </button>
+                            <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
+                              <GoGitCompare size={19} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              )}
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center bg-white pt-[107px] pb-[65px] px-[15px] rounded-md shadow">
-              <BsCartX size={180} className="text-[#D7D7D7] mb-12" />
-              <p className="text-gray-900 text-[24px] font-medium">
-                Your cart is currently empty.
-              </p>
-              <Link href={"/"} className="mt-12 bg-[#8BA73B] text-white py-2 px-6 rounded-full text-sm font-semibold">
-                RETURN TO SHOP
-              </Link>
-            </div>
-          )}
+          </div>
         </div>
       </div>
       <Footer />
@@ -824,4 +754,4 @@ const Cartpage = () => {
   );
 };
 
-export default Cartpage;
+export default ShopePage;

@@ -34,10 +34,10 @@ const Footer = () => {
             <hr className="border-t border-gray-200" />
 
             {/* Footer Main Content */}
-            <div className="w-full flex text-[14px] py-[80px] flex-wrap text-center md:text-left lg:text-left">
+            <div className="w-full flex text-[14px] pt-[80px] md:pb-[80px] pb-[40px] flex-wrap text-center md:text-left lg:text-left">
               {/* Logo & Description */}
               <div className="lg:w-[26%] md:w-[100%] w-[100%] lg:mb-0 mb-10">
-                <div className="mb-[33px] -mt-[10px]">
+                <div className="mb-[33px] -mt-[10px] flex md:justify-start justify-center">
                   <img
                     src="/images/logo-black.svg"
                     alt="Logo"
@@ -170,11 +170,11 @@ const Footer = () => {
               </div>
             </div>
           {/* Bottom Footer */}
-          <div className="text-center text-gray-500 text-sm flex items-center justify-between py-10 border-t">
+          <div className="text-center text-gray-500 text-sm flex flex-wrap items-center md:justify-between justify-center gap-3 pt-10 md:pb-10 pb-32 border-t">
             <p className="text-[16px]">
               Copyright © 2020 Efway. All Rights Reserved.
             </p>
-            <div className="flex justify-center gap-3 mt-2">
+            <div className="flex justify-center gap-3 md:mt-0 mt-5">
               <img src="/images/footerimg.png" alt="Visa" className="" />
             </div>
           </div>
