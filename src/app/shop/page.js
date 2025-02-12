@@ -20,6 +20,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { addCart } from "../redux/slices/cartSlice";
 import { RxCross2 } from "react-icons/rx";
+import { HiMiniMinusSmall } from "react-icons/hi2";
+
 
 const ShopePage = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,6 +33,8 @@ const ShopePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [maxPrice, setMaxPrice] = useState(200);
+  const [sortBy, setSortBy] = useState("");
+  const [mealType, setMealType] = useState("");
 
   const totalAmount = cart.reduce(
     (acc, item) => acc + item.caloriesPerServing * item.quantity,
@@ -64,14 +68,54 @@ const ShopePage = () => {
     const fetchRecipes = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("https://dummyjson.com/recipes?limit=0");
+        let url = "https://dummyjson.com/recipes?limit=0";
+        // if (activeTag) {
+        //   url = `https://dummyjson.com/recipes/tag/${activeTag}`;
+        // } else if (mealType) {
+        //   url = `https://dummyjson.com/recipes/meal-type/${mealType}`;
+        // }
+
+        // const res = await axios.get(url);
+        // let filteredRecipes = res.data.recipes;
+
+        if (activeTag) {
+          url = `https://dummyjson.com/recipes/tag/${activeTag}`;
+        }
+
+        const res = await axios.get(url);
+        console.log("API Response:", res.data); // Debugging line
         let filteredRecipes = res.data.recipes;
 
-        // If tag is selecte then filter recipes
-        if (activeTag) {
-          filteredRecipes = filteredRecipes.filter((recipe) =>
-            recipe.tags.includes(activeTag)
+        if (mealType) {
+          filteredRecipes = filteredRecipes.filter((recipe) => {
+            console.log("Recipe mealType:", recipe.mealType); // Debugging line
+            console.log("Selected mealType:", mealType); // Debugging line
+
+            // const priceMatch = recipe.caloriesPerServing <= maxPrice;
+            const mealMatch = mealType
+              ? recipe.mealType.some(
+                  (type) => type.toLowerCase() === mealType.toLowerCase()
+                )
+              : true;
+
+            console.log("Meal match result:", mealMatch); // Debugging line
+
+            return mealMatch;
+          });
+        }
+
+        if (sortBy === "price-low") {
+          filteredRecipes.sort(
+            (a, b) => a.caloriesPerServing - b.caloriesPerServing
           );
+        } else if (sortBy === "price-high") {
+          filteredRecipes.sort(
+            (a, b) => b.caloriesPerServing - a.caloriesPerServing
+          );
+        } else if (sortBy === "rating-low") {
+          filteredRecipes.sort((a, b) => a.rating - b.rating);
+        } else if (sortBy === "rating-high") {
+          filteredRecipes.sort((a, b) => b.rating - a.rating);
         }
 
         setRecipes(filteredRecipes);
@@ -83,27 +127,42 @@ const ShopePage = () => {
     };
 
     fetchRecipes();
-  }, [activeTag]);
+  }, [activeTag, sortBy, mealType]);
 
   const formatProductNameForURL = (name) => {
     return name.toLowerCase().replace(/\s+/g, "-").replace(/-/g, "~");
   };
 
   const menuItems = [
-    { name: "Home", hasSubmenu: true },
-    { name: "Shop" },
-    { name: "Pages", hasSubmenu: true },
-    { name: "Blog", hasSubmenu: true },
-    { name: "On Sale" },
-    { name: "About Us" },
-    { name: "Contact" },
+    { name: "Home", hasSubmenu: true, href: "/" },
+    { name: "Shop", href: "/shop" },
+    { name: "Pages", hasSubmenu: true, href: "/" },
+    { name: "Blog", hasSubmenu: true, href: "/" },
+    { name: "On Sale", href: "/" },
+    { name: "About Us", href: "/" },
+    { name: "Contact", href: "/" },
   ];
 
   const submenus = {
-    Home: ["Home2", "Home3", "Home4", "Home5"],
-    Pages: ["FAQ", "Privacy Policy", "Terms of Service"],
-    Blog: ["Latest News", "Fashion Tips", "Trends"],
+    Home: [
+      { name: "Home2", href: "/" },
+      { name: "Home3", href: "/" },
+      { name: "Home4", href: "/" },
+      { name: "Home5", href: "/" },
+    ],
+    Pages: [
+      { name: "FAQ", href: "/" },
+      { name: "Privacy Policy", href: "/" },
+      { name: "Terms of Service", href: "/" },
+    ],
+    Blog: [
+      { name: "Latest News", href: "/" },
+      { name: "Fashion Tips", href: "/" },
+      { name: "Trends", href: "/" },
+    ],
   };
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <>
@@ -517,11 +576,13 @@ const ShopePage = () => {
           </div>
 
           <div className="lg:hidden top-0 left-0 px-7 py-7 flex items-center justify-between bg-[#fff] w-full z-50">
-            <img
-              src="/images/logo-black.svg"
-              alt="Logo"
-              className="h-11 w-auto"
-            />
+            <Link href="/" className="w-full">
+              <img
+                src="/images/logo-black.svg"
+                alt="Logo"
+                className="h-11 w-auto"
+              />
+            </Link>
             <div className="lg:hidden">
               {/* Hamburger Button */}
               <button
@@ -554,7 +615,13 @@ const ShopePage = () => {
                           key={index}
                           className="flex justify-between items-center py-2 border-b"
                         >
-                          <span>{item.name}</span>
+                          <Link
+                            href={item.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="flex-1"
+                          >
+                            {item.name}
+                          </Link>
                           {item.hasSubmenu && (
                             <button onClick={() => setSubmenu(item.name)}>
                               <FaChevronRight size={12} />
@@ -576,7 +643,13 @@ const ShopePage = () => {
                       <ul className="space-y-4 text-lg">
                         {submenus[submenu]?.map((subItem, index) => (
                           <li key={index} className="py-2 border-b">
-                            {subItem}
+                            <Link
+                              href={subItem.href}
+                              onClick={() => setMenuOpen(false)}
+                              className="block"
+                            >
+                              {subItem.name}
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -606,7 +679,11 @@ const ShopePage = () => {
               </div>
               <div className="flex justify-center items-center mx-2 px-6 py-1 bg-white rounded-3xl">
                 <button
-                  onClick={() => setActiveTag("")}
+                  onClick={() => {
+                    setActiveTag("");
+                    setMealType("");
+                    setSortBy("");
+                  }}
                   className="text-gray-700 hover:text-[#8ba73b]"
                 >
                   Products{" "}
@@ -619,8 +696,8 @@ const ShopePage = () => {
           </div>
         </div>
 
-        <div className="w-full max-w-[1440px] mx-auto px-4 mt-10 pb-20 relative bg-transparent min-h-screen">
-          <div className="flex items-start gap-4 relative">
+        <div className="w-full max-w-[1440px] mx-auto md:px-4 px-0 mt-10 pb-20 relative bg-transparent min-h-screen">
+          <div className="lg:flex block items-start gap-4 relative">
             {/* Sidebar - Visible only on lg screens */}
             <aside className="hidden lg:block w-1/4 sticky top-5 h-fit">
               <div className="py-5 px-7 mb-[30px] shadow bg-white">
@@ -657,18 +734,98 @@ const ShopePage = () => {
                 <p className="text-gray-600 mt-4">Price: $30 — ${maxPrice}</p>
               </div>
             </aside>
+            {/* Sidebar - Visible on small screen*/}
+            <aside
+              className={`lg:hidden block fixed z-50 overflow-y-scroll inset-y-0 left-0 bg-white shadow-lg w-3/4 max-w-xs p-5 transition-transform duration-300 ${
+                isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+              } lg:translate-x-0 lg:relative lg:w-1/4 lg:block`}
+            >
+              {/* Close Button for Mobile */}
+              <button
+                className="lg:hidden absolute top-2 right-4 text-gray-800"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <span>Close</span>
+                <HiMiniMinusSmall size={24} className="inline-block"/>
+              </button>
+
+              <div className="py-5 px-7 mt-5 mb-[30px] shadow bg-white">
+                <h2 className="text-[18px] text-[#27272f] font-semibold mb-[18px] pb-[12px] border-b">
+                  PRODUCT CATEGORIES
+                </h2>
+                <ul className="text-gray-600">
+                  {tags.slice(0, 20).map((tag) => (
+                    <li
+                      key={tag}
+                      className={`hover:text-[#8ba73b] text-[14px] transition-all duration-300 py-[7px] cursor-pointer ${
+                        activeTag === tag ? "text-[#8ba73b] font-bold" : ""
+                      }`}
+                      onClick={() => setActiveTag(tag)}
+                    >
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="py-5 px-7 mb-[30px] shadow bg-white">
+                <h2 className="text-[18px] text-[#27272f] font-semibold mb-[18px] pb-[12px] border-b">
+                  FILTER BY PRICE
+                </h2>
+                <input
+                  type="range"
+                  min="30"
+                  max="200"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  className="w-full h-1 bg-black rounded-lg appearance-none cursor-pointer accent-black focus:outline-none focus:ring-none"
+                />
+                <p className="text-gray-600 mt-4">Price: $30 — ${maxPrice}</p>
+              </div>
+            </aside>
 
             {/* Product Grid */}
             <div className="flex-1 p-4 pt-0">
-              {/* <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">
-                  Active Filters:{" "}
-                  <span className="text-gray-500">Max ${maxPrice}</span>
-                </h2>
-                <button className="text-gray-500 underline">
-                  Clear Filters
+              <div className="flex flex-wrap justify-start gap-4 items-center mb-4">
+                <button
+                  className="lg:hidden px-4 pr-8 py-[7px] bg-white text-[#626262] border rounded-3xl text-[14px]"
+                  onClick={() => setIsSidebarOpen(true)}
+                >
+                  openFilter
                 </button>
-              </div> */}
+
+                <div className="relative">
+                  <select
+                    className="px-4 pr-8 py-[7px] text-[#626262] appearance-none border rounded-3xl text-[14px]"
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    <option value="">Default Sorting</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating-low">Rating: Low to High</option>
+                    <option value="rating-high">Rating: High to Low</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <RiArrowDropDownLine size={20} />
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <select
+                    className="px-4 py-[7px] pr-8 text-[#626262] appearance-none border rounded-3xl text-[14px]"
+                    onChange={(e) => setMealType(e.target.value)}
+                  >
+                    <option value="">Default Sorting</option>
+                    <option value="snack">Snack</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="dessert">Dessert</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <RiArrowDropDownLine size={20} />
+                  </div>
+                </div>
+              </div>
               {loading ? (
                 <div className="text-center py-10 w-full">
                   <div className="flex justify-center items-center space-x-2">

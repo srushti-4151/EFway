@@ -18,7 +18,6 @@ import { FaHome } from "react-icons/fa";
 import Footer from "../Footer/page";
 import { TbHeartX } from "react-icons/tb";
 
-
 const WishlistPage = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [submenu, setSubmenu] = useState(null);
@@ -32,19 +31,32 @@ const WishlistPage = () => {
   );
 
   const menuItems = [
-    { name: "Home", hasSubmenu: true },
-    { name: "Shop" },
-    { name: "Pages", hasSubmenu: true },
-    { name: "Blog", hasSubmenu: true },
-    { name: "On Sale" },
-    { name: "About Us" },
-    { name: "Contact" },
+    { name: "Home", hasSubmenu: true, href: "/" },
+    { name: "Shop", href: "/shop" },
+    { name: "Pages", hasSubmenu: true, href: "/" },
+    { name: "Blog", hasSubmenu: true, href: "/" },
+    { name: "On Sale", href: "/" },
+    { name: "About Us", href: "/" },
+    { name: "Contact", href: "/" },
   ];
 
   const submenus = {
-    Home: ["Home2", "Home3", "Home4", "Home5"],
-    Pages: ["FAQ", "Privacy Policy", "Terms of Service"],
-    Blog: ["Latest News", "Fashion Tips", "Trends"],
+    Home: [
+      { name: "Home2", href: "/" },
+      { name: "Home3", href: "/" },
+      { name: "Home4", href: "/" },
+      { name: "Home5", href: "/" },
+    ],
+    Pages: [
+      { name: "FAQ", href: "/" },
+      { name: "Privacy Policy", href: "/" },
+      { name: "Terms of Service", href: "/" },
+    ],
+    Blog: [
+      { name: "Latest News", href: "/" },
+      { name: "Fashion Tips", href: "/" },
+      { name: "Trends", href: "/" },
+    ],
   };
 
   return (
@@ -459,11 +471,13 @@ const WishlistPage = () => {
           </div>
 
           <div className="lg:hidden top-0 left-0 px-7 py-7 flex items-center justify-between bg-[#fff] w-full z-50">
-            <img
-              src="/images/logo-black.svg"
-              alt="Logo"
-              className="h-11 w-auto"
-            />
+            <Link href="/" className="w-full">
+              <img
+                src="/images/logo-black.svg"
+                alt="Logo"
+                className="h-11 w-auto"
+              />
+            </Link>
             <div className="lg:hidden">
               {/* Hamburger Button */}
               <button
@@ -496,7 +510,13 @@ const WishlistPage = () => {
                           key={index}
                           className="flex justify-between items-center py-2 border-b"
                         >
-                          <span>{item.name}</span>
+                          <Link
+                            href={item.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="flex-1"
+                          >
+                            {item.name}
+                          </Link>
                           {item.hasSubmenu && (
                             <button onClick={() => setSubmenu(item.name)}>
                               <FaChevronRight size={12} />
@@ -518,7 +538,13 @@ const WishlistPage = () => {
                       <ul className="space-y-4 text-lg">
                         {submenus[submenu]?.map((subItem, index) => (
                           <li key={index} className="py-2 border-b">
-                            {subItem}
+                            <Link
+                              href={subItem.href}
+                              onClick={() => setMenuOpen(false)}
+                              className="block"
+                            >
+                              {subItem.name}
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -558,7 +584,9 @@ const WishlistPage = () => {
 
         <div className="w-full max-w-[1410px] mx-auto px-4 mt-7 mb-10 relative bg-transparent container p-6">
           <div className="bg-white pt-[27px] px-[30px] pb-[35px] rounded-md shadow ">
-            <p className="text-[32px] p-[5px] mt-[20px] font-bold">My wishlist on Efway</p>
+            <p className="text-[32px] p-[5px] mt-[20px] font-bold">
+              My wishlist on Efway
+            </p>
             <div className="flex flex-col items-center justify-center bg-white pt-[80px] pb-[35px] px-[15px]">
               <TbHeartX size={200} className="text-[#D7D7D7] mb-12" />
               <p className="text-gray-900 text-[24px] font-medium">

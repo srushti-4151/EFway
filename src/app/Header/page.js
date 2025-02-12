@@ -23,20 +23,49 @@ const Header = () => {
     0
   );
 
+  // const menuItems = [
+  //   { name: "Home", hasSubmenu: true },
+  //   { name: "Shop" },
+  //   { name: "Pages", hasSubmenu: true },
+  //   { name: "Blog", hasSubmenu: true },
+  //   { name: "On Sale" },
+  //   { name: "About Us" },
+  //   { name: "Contact" },
+  // ];
+
+  // const submenus = {
+  //   Home: ["Home2", "Home3", "Home4", "Home5"],
+  //   Pages: ["FAQ", "Privacy Policy", "Terms of Service"],
+  //   Blog: ["Latest News", "Fashion Tips", "Trends"],
+  // };
+
   const menuItems = [
-    { name: "Home", hasSubmenu: true },
-    { name: "Shop" },
-    { name: "Pages", hasSubmenu: true },
-    { name: "Blog", hasSubmenu: true },
-    { name: "On Sale" },
-    { name: "About Us" },
-    { name: "Contact" },
+    { name: "Home", hasSubmenu: true, href: "/" },
+    { name: "Shop", href: "/shop" },
+    { name: "Pages", hasSubmenu: true, href: "/" },
+    { name: "Blog", hasSubmenu: true, href: "/" },
+    { name: "On Sale", href: "/" },
+    { name: "About Us", href: "/" },
+    { name: "Contact", href: "/" },
   ];
 
   const submenus = {
-    Home: ["Home2", "Home3", "Home4", "Home5"],
-    Pages: ["FAQ", "Privacy Policy", "Terms of Service"],
-    Blog: ["Latest News", "Fashion Tips", "Trends"],
+    Home: [
+      { name: "Home2", href: "/" },
+      { name: "Home3", href: "/" },
+      { name: "Home4", href: "/" },
+      { name: "Home5", href: "/" },
+    ],
+    Pages: [
+      { name: "FAQ", href: "/" },
+      { name: "Privacy Policy", href: "/" },
+      { name: "Terms of Service", href: "/" },
+    ],
+    Blog: [
+      { name: "Latest News", href: "/" },
+      { name: "Fashion Tips", href: "/" },
+      { name: "Trends", href: "/" },
+    ],
   };
 
   const handleRemove = (id) => {
@@ -436,7 +465,13 @@ const Header = () => {
                       key={index}
                       className="flex justify-between items-center py-2 border-b"
                     >
-                      <span>{item.name}</span>
+                       <Link
+                        href={item.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="flex-1"
+                      >
+                        {item.name}
+                      </Link>
                       {item.hasSubmenu && (
                         <button onClick={() => setSubmenu(item.name)}>
                           <FaChevronRight size={12}/>
@@ -458,7 +493,13 @@ const Header = () => {
                   <ul className="space-y-4 text-lg">
                     {submenus[submenu]?.map((subItem, index) => (
                       <li key={index} className="py-2 border-b">
-                        {subItem}
+                        <Link
+                          href={subItem.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="block"
+                        >
+                          {subItem.name}
+                        </Link>
                       </li>
                     ))}
                   </ul>
