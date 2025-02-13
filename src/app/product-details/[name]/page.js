@@ -29,6 +29,46 @@ async function getData(name, activeTag = "") {
   };
 }
 
+export async function generateMetadata({ params, searchParams }) {
+  const { name } = params;
+  const activeTag = searchParams?.tag || "";
+
+  // Fetch the product data
+  const data = await getData(name, activeTag);
+
+  // If no product is found, return a default metadata
+  if (!data.product) {
+    return {
+      title: "Product Not Found",
+      description: "The product you are looking for does not exist.",
+    };
+  }
+
+  // Generate metadata based on the product data
+  return {
+    title: data.product.name,
+    description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+    openGraph: {
+      title: data.product.name,
+      description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+      images: [
+        {
+          url: data.product.image,
+          width: 800,
+          height: 600,
+          alt: data.product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.product.name,
+      description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+      images: [data.product.image],
+    },
+  };
+}
+
 export default async function ProductDetails({ params, searchParams }) {
   const { name } = params;
   const activeTag = searchParams?.tag || ""; 
