@@ -58,7 +58,7 @@ export async function generateMetadata({ params, searchParams }) {
         siteName: "Your Recipe Site",
         images: [
           {
-            url: data.product.image || "/default-image.jpg",
+            url: data.product.image || "https://cdn.dummyjson.com/recipe-images/1.webp",
             width: 800,
             height: 600,
             alt: data.product.name,
@@ -69,7 +69,7 @@ export async function generateMetadata({ params, searchParams }) {
         card: "summary_large_image",
         title: data.product.name,
         description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
-        images: [data.product.image || "/default-image.jpg"],
+        images: [data.product.image || "https://cdn.dummyjson.com/recipe-images/1.webp"],
       },
       dynamic: "force-dynamic",
     };
