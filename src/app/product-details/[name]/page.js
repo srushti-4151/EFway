@@ -92,6 +92,24 @@ export default async function ProductDetails({ params, searchParams }) {
 
   return (
     <>
+    <Head>
+        <title>{data.product.name}</title>
+        <meta name="description" content={`Learn more about ${data.product.name}`} />
+        
+        {/* Open Graph Meta for WhatsApp */}
+        <meta property="og:title" content={data.product.name} />
+        <meta property="og:description" content={`A delicious ${data.product.cuisine} recipe.`} />
+        <meta property="og:image" content={data.product.image} />
+        <meta property="og:url" content={`https://efway-eight.vercel.app/product-details/${name}`} />
+        <meta property="og:type" content="website" />
+        
+        {/* Twitter Meta */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={data.product.name} />
+        <meta name="twitter:description" content={`A delicious ${data.product.cuisine} recipe.`} />
+        <meta name="twitter:image" content={data.product.image} />
+      </Head>
+
       <ProductDetailsClient
         productData={data.product}
         tagsData={data.tags}
