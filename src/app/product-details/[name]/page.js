@@ -43,6 +43,8 @@ export async function generateMetadata({ params, searchParams }) {
       };
     }
 
+    console.log("data productttttt",data.product)
+
     const recipeUrl = `https://yourwebsite.com/recipes/${encodeURIComponent(name)}`;
 
     return {
@@ -69,6 +71,7 @@ export async function generateMetadata({ params, searchParams }) {
         description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
         images: [data.product.image || "/default-image.jpg"],
       },
+      dynamic: "force-dynamic",
     };
   } catch (error) {
     console.error("Error fetching metadata:", error);
