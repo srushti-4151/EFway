@@ -1061,7 +1061,7 @@ const ProductDetails = () => {
                     You may also like
                   </h1>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {MoreRec.slice(4, 7).map((recipe) => (
+                    {MoreRec.slice(30, 33).map((recipe) => (
                       <div
                         key={recipe.id}
                         className="group p-6 relative transition-all ease-out duration-300 h-full flex flex-col bg-white rounded-md shadow-lg overflow-hidden mb-0"
@@ -1115,6 +1115,21 @@ const ProductDetails = () => {
                           </div>
 
                           <div className="flex flex-row mt-5 justify-between">
+                          {cart.some((item) => item.id === recipe.id) ? (
+                          <Link
+                            href="/cart"
+                            className="bg-[#8BA73B] mb-1 text-white text-[14px] px-5 rounded-3xl py-2 hover:bg-[#6c832e] transition-all duration-300 flex items-center justify-center gap-2"
+                          >
+                            <PiBagBold
+                              size={20}
+                              className="inline-block font-bold"
+                            />
+                            <span className="leading-none">
+                              Already in Cart
+                            </span>
+                          </Link>
+                        ) : (
+                           <>
                             <button
                               onClick={() => handleAddToCart(recipe)}
                               className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1"
@@ -1135,6 +1150,7 @@ const ProductDetails = () => {
                                 <GoGitCompare size={19} />
                               </button>
                             </div>
+                            </> )}
                           </div>
                         </div>
                       </div>
