@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import ProductDetailsClient from "./ProductDetailsClient";
+import Head from "next/head";
 
 async function getData(name, activeTag = "") {
   const decodedName = decodeURIComponent(name)
@@ -15,7 +16,9 @@ async function getData(name, activeTag = "") {
 
   let recipesRes;
   if (activeTag) {
-    recipesRes = await axios.get(`https://dummyjson.com/recipes/tag/${activeTag}`);
+    recipesRes = await axios.get(
+      `https://dummyjson.com/recipes/tag/${activeTag}`
+    );
   } else {
     recipesRes = await axios.get("https://dummyjson.com/recipes?limit=0");
   }
@@ -43,9 +46,9 @@ export async function generateMetadata({ params, searchParams }) {
       };
     }
 
-    console.log("data productttttt",data.product)
-
     const recipeUrl = `https://yourwebsite.com/recipes/${encodeURIComponent(name)}`;
+    const imageUrl =
+      data.product.image || "https://cdn.dummyjson.com/recipe-images/1.webp";
 
     return {
       title: data.product.name,
@@ -54,13 +57,13 @@ export async function generateMetadata({ params, searchParams }) {
         title: data.product.name,
         description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
         url: recipeUrl,
-        type: "article", // ✅ FIXED: Changed from "recipe" to "article"
+        type: "article",
         siteName: "Your Recipe Site",
         images: [
           {
-            url: data.product.image || "https://cdn.dummyjson.com/recipe-images/1.webp",
-            width: 800,
-            height: 600,
+            url: imageUrl, // ✅ Ensure the image URL is absolute
+            width: 1200, // ✅ Bigger images work better for WhatsApp previews
+            height: 630,
             alt: data.product.name,
           },
         ],
@@ -69,9 +72,8 @@ export async function generateMetadata({ params, searchParams }) {
         card: "summary_large_image",
         title: data.product.name,
         description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
-        images: [data.product.image || "https://cdn.dummyjson.com/recipe-images/1.webp"],
+        images: [imageUrl],
       },
-      dynamic: "force-dynamic",
     };
   } catch (error) {
     console.error("Error fetching metadata:", error);
@@ -82,11 +84,9 @@ export async function generateMetadata({ params, searchParams }) {
   }
 }
 
-
-
 export default async function ProductDetails({ params, searchParams }) {
   const { name } = params;
-  const activeTag = searchParams?.tag || ""; 
+  const activeTag = searchParams?.tag || "";
 
   const data = await getData(name, activeTag);
 
