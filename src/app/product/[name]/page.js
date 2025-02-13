@@ -8,6 +8,7 @@ import { FaStar } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart, updateQuantity } from "@/app/redux/slices/cartSlice";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const ProductDetails = () => {
   const { name } = useParams();
@@ -17,6 +18,12 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const cartItem = cart.find((item) => item.id === product?.id);
+
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.back();
+  };
 
   useEffect(() => {
     if (cartItem) {
@@ -86,8 +93,15 @@ const ProductDetails = () => {
     );
   return (
     <>
-      <div className="w-full bg-white flex justify-center items-center min-h-screen">
-        <div className="max-w-[80%] mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <div className="w-full bg-white flex justify-center items-center min-h-screen overflow-hidden">
+        <div className="lg:max-w-[80%] mx-auto p-6 bg-white shadow-lg rounded-lg">
+          <button
+            onClick={handleGoBack}
+            className="bg-gray-50 hover:bg-gray-200 m-4 text-gray-800 px-4 py-2 rounded-md transition-all duration-300"
+          >
+            ← Go Back
+          </button>
+
           <div className="grid md:grid-cols-2 gap-3">
             {/* Product Image */}
             <div className="">

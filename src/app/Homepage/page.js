@@ -4,10 +4,13 @@ import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
 import Header from "../Header/page";
+import { useRouter } from "next/navigation";
 
 const Homepage = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef(null);
+  const router = useRouter();
+
 
   const settings = {
     dots: false,
@@ -124,7 +127,8 @@ const Homepage = () => {
                           </motion.p>
 
                           <motion.button
-                            className="mt-7 bg-[#8BA73B] rounded-3xl font-bold text-[16px] px-[34px] py-[14px] text-white z-50"
+                            className="mt-7 bg-[#8BA73B] hover:bg-[#667c2b] rounded-3xl font-bold text-[16px] px-[34px] py-[14px] text-white z-50"
+                            onClick={() => router.push("/shop")}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{
@@ -239,7 +243,8 @@ const Homepage = () => {
                           </motion.p>
 
                           <motion.button
-                            className="mt-3 bg-[#8BA73B] rounded-3xl font-bold text-[16px] px-[34px] py-[14px] text-white z-50"
+                            className="mt-3 bg-[#8BA73B] hover:bg-[#667c2b] rounded-3xl font-bold text-[16px] px-[34px] py-[14px] text-white z-50"
+                            onClick={() => router.push("/shop")}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{
@@ -436,6 +441,7 @@ const Homepage = () => {
 
                       <motion.button
                         key={`button-${activeSlide}`}
+                        onClick={() => router.push("/shop")}
                         className="mt-2 bg-[#8BA73B] rounded-3xl font-bold text-xs px-7 py-3 text-white z-50"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -494,6 +500,7 @@ const Homepage = () => {
 
                       <motion.button
                         key={`button-${activeSlide}`}
+                        onClick={() => router.push("/shop")}
                         className="mt-2 bg-[#8BA73B] rounded-3xl font-bold text-xs px-7 py-3 text-white z-50"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}

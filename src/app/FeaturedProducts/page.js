@@ -9,6 +9,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addCart } from "../redux/slices/cartSlice";
+import { useRouter } from "next/navigation";
 
 const FeaturedProducts = () => {
   // const products = [
@@ -97,6 +98,13 @@ const FeaturedProducts = () => {
     return name.toLowerCase().replace(/\s+/g, "-").replace(/-/g, "~");
   };
 
+  const router = useRouter();
+
+  // Function to navigate to the full product details page
+  const handleImageClick = (recipeName) => {
+    router.push(`/product-details/${formatProductNameForURL(recipeName)}`);
+  };
+
   return (
     <>
       <div className="relative max-w-[1410px] w-full mx-auto mt-0 md:mb-[70px] mb-[100px]">
@@ -155,19 +163,24 @@ const FeaturedProducts = () => {
                     <img
                       src={recipe.image}
                       alt={recipe.name}
-                      className="w-full h-full object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent interference
+                        handleImageClick(recipe.name);
+                      }}
+                      className="w-full h-full object-cover rounded-md transition-transform duration-300 group-hover:scale-105 cursor-pointer"
                     />
 
-                    {/* Hover Button */}
                     <Link
                       href={`/product/${formatProductNameForURL(recipe.name)}`}
-                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      onClick={(e) => e.stopPropagation()}
+                      className="w-10 h-10 rounded-full bg-[#8BA73B] text-white text-xl shadow-lg hover:bg-[#6f8e2e] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     >
-                      <div className="w-10 h-10 rounded-full flex justify-center items-center bg-[#8BA73B] text-white text-xl shadow-lg hover:bg-[#6f8e2e]">
+                      {/* <div className="w-10 h-10 rounded-full flex justify-center items-center bg-[#8BA73B] text-white text-xl shadow-lg hover:bg-[#6f8e2e]"> */}
                         <CiSearch size={20} />
-                      </div>
+                      {/* </div> */}
                     </Link>
                   </div>
+                  
 
                   <div className="mt-5 mb-1">
                     <div>
@@ -177,9 +190,11 @@ const FeaturedProducts = () => {
                       >
                         {recipe.cuisine}
                       </Link>
-                      <h3 className="text-[1.0625rem] font-bold text-gray-800 leading-[1.4] overflow-hidden max-h-[2.1em] h-[2.1em] hover:underline">
-                        <Link href={"#"}>{recipe.name}</Link>
-                      </h3>
+                      <Link href={`/product-details/${formatProductNameForURL(recipe.name)}`}
+                      className="text-[1.0625rem] block font-bold text-gray-800 leading-[1.4] overflow-hidden max-h-[2.1em] h-[2.1em] hover:underline"
+                      >
+                        {recipe.name}
+                      </Link>
                       <p className="text-[#8BA73B] font-bold text-xl mt-1">
                         ${recipe.caloriesPerServing}
                       </p>
