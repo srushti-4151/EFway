@@ -57,7 +57,7 @@ export async function generateMetadata({ params, searchParams }) {
         title: data.product.name,
         description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
         url: recipeUrl,
-        type: "article",
+        type: "website",
         siteName: "Your Recipe Site",
         images: [
           {
