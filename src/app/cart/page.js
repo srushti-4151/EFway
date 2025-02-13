@@ -25,27 +25,36 @@ const Cartpage = () => {
   const cart = useSelector((state) => state.cart.cart);
   const [quantities, setQuantities] = useState({});
 
-  const increaseQuantity = (itemId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemId]:
-        (prev[itemId] ||
-          cart.find((item) => item.id === itemId)?.quantity ||
-          1) + 1,
-    }));
-  };
+  // const increaseQuantity = (itemId) => {
+  //   setQuantities((prev) => ({
+  //     ...prev,
+  //     [itemId]:
+  //       (prev[itemId] ||
+  //         cart.find((item) => item.id === itemId)?.quantity ||
+  //         1) + 1,
+  //   }));
+  // };
 
-  const decreaseQuantity = (itemId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemId]: Math.max(
-        (prev[itemId] ||
-          cart.find((item) => item.id === itemId)?.quantity ||
-          1) - 1,
-        1
-      ),
-    }));
+  // const decreaseQuantity = (itemId) => {
+  //   setQuantities((prev) => ({
+  //     ...prev,
+  //     [itemId]: Math.max(
+  //       (prev[itemId] ||
+  //         cart.find((item) => item.id === itemId)?.quantity ||
+  //         1) - 1,
+  //       1
+  //     ),
+  //   }));
+  // };
+  const increaseQuantity = (itemId) => {
+    dispatch(updateQuantity({ id: itemId, quantity: (quantities[itemId] || cart.find(item => item.id === itemId)?.quantity || 1) + 1 }));
   };
+  
+  const decreaseQuantity = (itemId) => {
+    const newQuantity = Math.max((quantities[itemId] || cart.find(item => item.id === itemId)?.quantity || 1) - 1, 1);
+    dispatch(updateQuantity({ id: itemId, quantity: newQuantity }));
+  };
+  
 
   // const handleAddToCart = () => {
   //   Object.entries(quantities).forEach(([id, quantity]) => {
@@ -54,9 +63,9 @@ const Cartpage = () => {
   // };
 
   const handleAddToCart = () => {
-    Object.entries(quantities).forEach(([id, quantity]) => {
-      dispatch(updateQuantity({ id: Number(id), quantity })); // Convert id to number
-    });
+    // Object.entries(quantities).forEach(([id, quantity]) => {
+    //   dispatch(updateQuantity({ id: Number(id), quantity })); // Convert id to number
+    // });
   };
 
   const totalAmount = cart.reduce(
