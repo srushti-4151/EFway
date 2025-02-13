@@ -33,41 +33,53 @@ export async function generateMetadata({ params, searchParams }) {
   const { name } = params;
   const activeTag = searchParams?.tag || "";
 
-  // Fetch the product data
-  const data = await getData(name, activeTag);
+  try {
+    const data = await getData(name, activeTag);
 
-  // If no product is found, return a default metadata
-  if (!data.product) {
+    if (!data.product) {
+      return {
+        title: "Recipe Not Found",
+        description: "The recipe you are looking for does not exist.",
+      };
+    }
+
+    const recipeUrl = `https://yourwebsite.com/recipes/${encodeURIComponent(name)}`;
+
     return {
-      title: "Product Not Found",
-      description: "The product you are looking for does not exist.",
+      title: data.product.name,
+      description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+      openGraph: {
+        title: data.product.name,
+        description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+        url: recipeUrl,
+        type: "article", // ✅ FIXED: Changed from "recipe" to "article"
+        siteName: "Your Recipe Site",
+        images: [
+          {
+            url: data.product.image || "/default-image.jpg",
+            width: 800,
+            height: 600,
+            alt: data.product.name,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: data.product.name,
+        description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+        images: [data.product.image || "/default-image.jpg"],
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching metadata:", error);
+    return {
+      title: "Error Loading Recipe",
+      description: "An error occurred while fetching recipe details.",
     };
   }
-
-  // Generate metadata based on the product data
-  return {
-    title: data.product.name,
-    description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
-    openGraph: {
-      title: data.product.name,
-      description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
-      images: [
-        {
-          url: data.product.image,
-          width: 800,
-          height: 600,
-          alt: data.product.name,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: data.product.name,
-      description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
-      images: [data.product.image],
-    },
-  };
 }
+
+
 
 export default async function ProductDetails({ params, searchParams }) {
   const { name } = params;
