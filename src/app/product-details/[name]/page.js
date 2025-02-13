@@ -359,11 +359,13 @@ const ProductDetails = () => {
                         <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
                           <IoBagHandleOutline className="text-2xl text-black group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" />
                           <div className="absolute top-0 -right-3 w-6 h-6 bg-[#8ba73b] text-white text-xs flex justify-center items-center rounded-full">
-                            {cart.length || 0}
+                            {/* {cart.length || 0} */}
+                            {cart?.length ?? 0}
                           </div>
                         </div>
                         <div className="leading-5 text-sm ml-1">
-                          ${totalAmount.toFixed(2) || 0}
+                          {/* ${totalAmount.toFixed(2) || 0} */}
+                          ${totalAmount?.toFixed(2) ?? "0.00"}
                         </div>
                       </div>
                     </Link>
@@ -1115,42 +1117,43 @@ const ProductDetails = () => {
                           </div>
 
                           <div className="flex flex-row mt-5 justify-between">
-                          {cart.some((item) => item.id === recipe.id) ? (
-                          <Link
-                            href="/cart"
-                            className="bg-[#8BA73B] mb-1 text-white text-[14px] px-5 rounded-3xl py-2 hover:bg-[#6c832e] transition-all duration-300 flex items-center justify-center gap-2"
-                          >
-                            <PiBagBold
-                              size={20}
-                              className="inline-block font-bold"
-                            />
-                            <span className="leading-none">
-                              Already in Cart
-                            </span>
-                          </Link>
-                        ) : (
-                           <>
-                            <button
-                              onClick={() => handleAddToCart(recipe)}
-                              className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1"
-                            >
-                              <CiShoppingCart
-                                size={16}
-                                className="inline-block"
-                              />
-                              <span className="leading-none lg:inline-block hidden">
-                                ADD TO CART
-                              </span>
-                            </button>
-                            <div className="flex items-center text-gray-800">
-                              <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
-                                <CiHeart size={25} />
-                              </button>
-                              <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
-                                <GoGitCompare size={19} />
-                              </button>
-                            </div>
-                            </> )}
+                            {cart.some((item) => item.id === recipe.id) ? (
+                              <Link
+                                href="/cart"
+                                className="bg-[#8BA73B] mb-1 text-white text-[14px] px-5 rounded-3xl py-2 hover:bg-[#6c832e] transition-all duration-300 flex items-center justify-center gap-2"
+                              >
+                                <PiBagBold
+                                  size={20}
+                                  className="inline-block font-bold"
+                                />
+                                <span className="leading-none">
+                                  Already in Cart
+                                </span>
+                              </Link>
+                            ) : (
+                              <>
+                                <button
+                                  onClick={() => handleAddToCart(recipe)}
+                                  className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1"
+                                >
+                                  <CiShoppingCart
+                                    size={16}
+                                    className="inline-block"
+                                  />
+                                  <span className="leading-none lg:inline-block hidden">
+                                    ADD TO CART
+                                  </span>
+                                </button>
+                                <div className="flex items-center text-gray-800">
+                                  <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
+                                    <CiHeart size={25} />
+                                  </button>
+                                  <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
+                                    <GoGitCompare size={19} />
+                                  </button>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>

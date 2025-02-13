@@ -6,10 +6,11 @@ import { GoGitCompare } from "react-icons/go";
 import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { addCart } from "../redux/slices/cartSlice";
 import { useRouter } from "next/navigation";
+import { PiBagBold } from "react-icons/pi";
 
 const FeaturedProducts = () => {
   // const products = [
@@ -46,6 +47,7 @@ const FeaturedProducts = () => {
   const [activeTag, setActiveTag] = useState("Pizza");
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const cart = useSelector((state) => state.cart.cart);
 
   const dispatch = useDispatch();
 
@@ -176,11 +178,10 @@ const FeaturedProducts = () => {
                       className="w-10 h-10 rounded-full bg-[#8BA73B] text-white text-xl shadow-lg hover:bg-[#6f8e2e] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     >
                       {/* <div className="w-10 h-10 rounded-full flex justify-center items-center bg-[#8BA73B] text-white text-xl shadow-lg hover:bg-[#6f8e2e]"> */}
-                        <CiSearch size={20} />
+                      <CiSearch size={20} />
                       {/* </div> */}
                     </Link>
                   </div>
-                  
 
                   <div className="mt-5 mb-1">
                     <div>
@@ -190,8 +191,11 @@ const FeaturedProducts = () => {
                       >
                         {recipe.cuisine}
                       </Link>
-                      <Link href={`/product-details/${formatProductNameForURL(recipe.name)}`}
-                      className="text-[1.0625rem] block font-bold text-gray-800 leading-[1.4] overflow-hidden max-h-[2.1em] h-[2.1em] hover:underline"
+                      <Link
+                        href={`/product-details/${formatProductNameForURL(
+                          recipe.name
+                        )}`}
+                        className="text-[1.0625rem] block font-bold text-gray-800 leading-[1.4] overflow-hidden max-h-[2.1em] h-[2.1em] hover:underline"
                       >
                         {recipe.name}
                       </Link>
@@ -201,21 +205,39 @@ const FeaturedProducts = () => {
                     </div>
 
                     <div className="flex flex-row mt-9 justify-between">
-                      <button
-                        onClick={() => handleAddToCart(recipe)}
-                        className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1"
-                      >
-                        <CiShoppingCart size={16} className="inline-block" />
-                        <span className="leading-none">ADD TO CART</span>
-                      </button>
-                      <div className="flex items-center text-gray-800">
-                        <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
-                          <CiHeart size={25} />
-                        </button>
-                        <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
-                          <GoGitCompare size={19} />
-                        </button>
-                      </div>
+                      {cart.some((item) => item.id === recipe.id) ? (
+                        <Link
+                          href="/cart"
+                          className="bg-[#8BA73B] mb-1 text-white text-[14px] px-5 rounded-3xl py-2 hover:bg-[#6c832e] transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          <PiBagBold
+                            size={20}
+                            className="inline-block font-bold"
+                          />
+                          <span className="leading-none">Already in Cart</span>
+                        </Link>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => handleAddToCart(recipe)}
+                            className="bg-[#fff] text-gray-800 border border-gray-400 hover:text-[#fff] text-xs px-5 rounded-3xl py-2 hover:bg-[#8BA73B] transition-all duration-300 flex items-center justify-center gap-1"
+                          >
+                            <CiShoppingCart
+                              size={16}
+                              className="inline-block"
+                            />
+                            <span className="leading-none">ADD TO CART</span>
+                          </button>
+                          <div className="flex items-center text-gray-800">
+                            <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
+                              <CiHeart size={25} />
+                            </button>
+                            <button className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F2F4EC] mx-[3px] hover:text-[#fff] hover:bg-[#8BA73B] transition-all duration-300">
+                              <GoGitCompare size={19} />
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

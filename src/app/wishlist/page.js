@@ -191,11 +191,13 @@ const WishlistPage = () => {
                         <div className="w-10 h-10 bg-white relative rounded-full flex justify-center items-start">
                           <IoBagHandleOutline className="text-2xl text-black group-hover:text-[#8ba73b] transition-all duration-300 ease-in-out absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2" />
                           <div className="absolute top-0 -right-3 w-6 h-6 bg-[#8ba73b] text-white text-xs flex justify-center items-center rounded-full">
-                            {cart.length || 0}
+                            {/* {cart.length || 0} */}
+                            {cart?.length ?? 0}
                           </div>
                         </div>
                         <div className="leading-5 text-sm ml-1">
-                          ${totalAmount.toFixed(2) || 0}
+                          {/* ${totalAmount.toFixed(2) || 0} */}
+                          ${totalAmount?.toFixed(2) ?? "0.00"}
                         </div>
                       </div>
                     </Link>

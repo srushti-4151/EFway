@@ -4,9 +4,11 @@ import { GoPerson } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { IoBagHandleOutline } from "react-icons/io5";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const MobileFooterBar = () => {
   const [showSearch, setShowSearch] = useState(false);
+  const cart = useSelector((state) => state.cart.cart);
 
   return (
     <div className="fixed block md:hidden lg:hidden bottom-0 left-0 right-0 bg-[#2d2d2d] text-white border-t border-[#2d2d2d] shadow-lg z-50">
@@ -49,7 +51,7 @@ const MobileFooterBar = () => {
           <Link href="/cart" className="flex flex-col items-center text-gray-300 relative">
             <IoBagHandleOutline size={34} />
             <span className="absolute top-0 right-8 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-              0
+               {cart?.length ?? 0}
             </span>
           </Link>
         </li>

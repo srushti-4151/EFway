@@ -4,6 +4,7 @@ import "./globals.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { ToastContainer } from "react-toastify";
+import MobileFooterBar from "./MobileFooterBar/MobileFooterBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         <Provider store={store}>
         <ToastContainer position="top-right" autoClose={3000} />
         {children}
+        <MobileFooterBar />
         </Provider>
       </body>
     </html>
