@@ -56,7 +56,7 @@ export async function generateMetadata({ params, searchParams }) {
     }
 
     const recipeUrl = `https://yourwebsite.com/recipes/${encodeURIComponent(name)}`;
-    // const imageUrl =  data.product.image || "https://cdn.dummyjson.com/recipe-images/1.webp";
+    const imageUrl =  data.product.image || "https://cdn.dummyjson.com/recipe-images/1.webp";
 
       
       //const imageUrl = data.product.image || "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png";
@@ -67,7 +67,7 @@ export async function generateMetadata({ params, searchParams }) {
       // console.log("Final Image URL:", imageUrl);
 
       
-      const imageUrl = "https://cdn.dummyjson.com/recipe-images/3.webp";
+      // const imageUrl = "https://cdn.dummyjson.com/recipe-images/3.webp";
       
 
     return {
