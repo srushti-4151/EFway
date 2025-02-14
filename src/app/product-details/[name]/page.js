@@ -61,17 +61,17 @@ export async function generateMetadata({ params, searchParams }) {
 
     return {
       title: data.product.name,
-      description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+      description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.${data.product.ingredients}`,
       openGraph: {
         title: data.product.name,
-        description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+        description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.${data.product.ingredients}`,
         url: recipeUrl,
         type: "website",
         siteName: "Your Recipe Site",
         images: [
           {
             url: imageUrl,
-            width: 600,
+            width: 1200,
             height: 630,
             alt: data.product.name,
           },
@@ -80,7 +80,7 @@ export async function generateMetadata({ params, searchParams }) {
       twitter: {
         card: "summary_large_image",
         title: data.product.name,
-        description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.`,
+        description: `Learn more about ${data.product.name}, a delicious ${data.product.cuisine} cuisine recipe.${data.product.ingredients}`,
         images: [imageUrl],
       },
     };
