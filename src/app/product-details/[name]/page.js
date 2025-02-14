@@ -63,7 +63,9 @@ export async function generateMetadata({ params, searchParams }) {
       const imageUrl = data.product.image?.endsWith(".webp") 
       ? "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png"  // Use a valid .jpg URL as fallback
       : data.product.image || "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png";
-    
+      console.log("Product Image:", data.product.image);
+      console.log("Final Image URL:", imageUrl);
+      
 
     return {
       title: data.product.name,
