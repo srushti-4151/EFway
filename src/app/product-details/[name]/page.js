@@ -71,7 +71,7 @@ export async function generateMetadata({ params, searchParams }) {
         images: [
           {
             url: imageUrl,
-            width: 1200,
+            width: 600,
             height: 630,
             alt: data.product.name,
           },
