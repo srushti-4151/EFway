@@ -60,11 +60,14 @@ export async function generateMetadata({ params, searchParams }) {
 
       
       //const imageUrl = data.product.image || "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png";
-      const imageUrl = data.product.image?.endsWith(".webp") 
-      ? "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png"  // Use a valid .jpg URL as fallback
-      : data.product.image || "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png";
-      console.log("Product Image:", data.product.image);
-      console.log("Final Image URL:", imageUrl);
+      // const imageUrl = data.product.image?.endsWith(".webp") 
+      // ? "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png"  // Use a valid .jpg URL as fallback
+      // : data.product.image || "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png";
+      // console.log("Product Image:", data.product.image);
+      // console.log("Final Image URL:", imageUrl);
+
+      
+      const imageUrl = "https://cdn.dummyjson.com/recipe-images/3.webp";
       
 
     return {
@@ -83,7 +86,6 @@ export async function generateMetadata({ params, searchParams }) {
             width: 1200,
             height: 630,
             alt: data.product.name,
-            type: "image/png",
           },
         ],
       },
