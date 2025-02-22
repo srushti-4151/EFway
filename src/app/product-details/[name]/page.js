@@ -74,7 +74,7 @@ export async function generateMetadata({ params }) {
   }
 
   const decodedName = decodeURIComponent(name);
-  const recipeUrl = `https://yourwebsite.com/recipes/${encodeURIComponent(decodedName)}`;
+  const recipeUrl = `https://efway-eight.vercel.app/recipes/${encodeURIComponent(decodedName)}`;
   const imageUrl = recipe.image || null;
 
   return {
