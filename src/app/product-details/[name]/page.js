@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
   const { name } = params;
 
   const recipe = await getRecipe(name);
-
+  // console.log("rrecipeee", recipe)
   if (!recipe) {
     return {
       title: "Recipe Not Found",
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }) {
       openGraph: {
         title: "Recipe Not Found",
         description: "The recipe you are looking for does not exist.",
-        url: `https://yourwebsite.com/recipes/${encodeURIComponent(name)}`,
+        url: `https://efway-eight.vercel.app/product-details/${encodeURIComponent(name)}`,
         type: "website",
         siteName: "Your Recipe Site",
         images: [
