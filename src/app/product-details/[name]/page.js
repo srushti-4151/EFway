@@ -37,8 +37,8 @@ const getMoreRecipes = async () => {
   }
 };
 
-
 // Generate metadata for the recipe page
+
 export async function generateMetadata({ params }) {
   const { name } = params;
 
@@ -48,36 +48,73 @@ export async function generateMetadata({ params }) {
     return {
       title: "Recipe Not Found",
       description: "The recipe you are looking for does not exist.",
+      openGraph: {
+        title: "Recipe Not Found",
+        description: "The recipe you are looking for does not exist.",
+        url: `https://yourwebsite.com/recipes/${encodeURIComponent(name)}`,
+        type: "website",
+        siteName: "Your Recipe Site",
+        images: [
+          {
+            url: "https://cdn.dummyjson.com/recipe-images/1.webp",
+            secure_url: "https://cdn.dummyjson.com/recipe-images/1.webp",
+            width: 1200,
+            height: 630,
+            alt: "Recipe Not Found",
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Recipe Not Found",
+        description: "The recipe you are looking for does not exist.",
+        images: ["https://cdn.dummyjson.com/recipe-images/1.webp"],
+      },
     };
   }
 
-  const recipeUrl = `https://yourwebsite.com/recipes/${encodeURIComponent(name)}`;
-  const imageUrl = recipe.image || "https://cdn.dummyjson.com/recipe-images/1.webp";
+  const decodedName = decodeURIComponent(name);
+  const recipeUrl = `https://yourwebsite.com/recipes/${encodeURIComponent(decodedName)}`;
+  const imageUrl = recipe.image || null;
 
   return {
     title: recipe.name,
     description: `Learn more about ${recipe.name}, a delicious ${recipe.cuisine} cuisine recipe.`,
+    keywords: recipe.tags.join(", "),
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: recipeUrl,
+      languages: {
+        "en-US": recipeUrl,
+      },
+    },
     openGraph: {
       title: recipe.name,
       description: `Learn more about ${recipe.name}, a delicious ${recipe.cuisine} cuisine recipe.`,
       url: recipeUrl,
       type: "website",
       siteName: "Your Recipe Site",
-      images: [
-        {
-          url: imageUrl,
-          secure_url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: recipe.name,
-        },
-      ],
+      images: imageUrl
+        ? [
+            {
+              url: imageUrl,
+              secure_url: imageUrl,
+              width: 1200,
+              height: 630,
+              alt: recipe.name,
+            },
+          ]
+        : [],
     },
     twitter: {
       card: "summary_large_image",
       title: recipe.name,
       description: `Learn more about ${recipe.name}, a delicious ${recipe.cuisine} cuisine recipe.`,
-      images: [imageUrl],
+      images: imageUrl ? [imageUrl] : [],
+      type: "website",
     },
   };
 }
