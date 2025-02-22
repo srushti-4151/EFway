@@ -38,12 +38,10 @@ const getMoreRecipes = async () => {
 };
 
 // Generate metadata for the recipe page
-
 export async function generateMetadata({ params }) {
   const { name } = params;
-
   const recipe = await getRecipe(name);
-  // console.log("rrecipeee", recipe)
+
   if (!recipe) {
     return {
       title: "Recipe Not Found",
@@ -75,7 +73,8 @@ export async function generateMetadata({ params }) {
 
   const decodedName = decodeURIComponent(name);
   const recipeUrl = `https://efway-eight.vercel.app/product-details/${encodeURIComponent(decodedName)}`;
-  const imageUrl = recipe.image || null;
+  // Use recipe.image if available, otherwise fallback to static image
+  const imageUrl = recipe.image || "https://cdn.dummyjson.com/recipe-images/1.webp";
 
   return {
     title: recipe.name,
@@ -97,13 +96,11 @@ export async function generateMetadata({ params }) {
       url: recipeUrl,
       type: "website",
       siteName: "Your Recipe Site",
-      images: "https://cdn.dummyjson.com/recipe-images/1.webp"
+      images: imageUrl
         ? [
             {
-              // url: imageUrl,
-              // secure_url: imageUrl,
-              url: "https://cdn.dummyjson.com/recipe-images/1.webp",
-          secure_url: "https://cdn.dummyjson.com/recipe-images/1.webp",
+              url: imageUrl,
+              secure_url: imageUrl,
               width: 1200,
               height: 630,
               alt: recipe.name,
@@ -115,12 +112,12 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title: recipe.name,
       description: `Learn more about ${recipe.name}, a delicious ${recipe.cuisine} cuisine recipe.`,
-      // images: imageUrl ? [imageUrl] : [],
-      images: ["https://cdn.dummyjson.com/recipe-images/1.webp"],
+      images: imageUrl ? [imageUrl] : [],
       type: "website",
     },
   };
 }
+
 
 // Main server-side rendered component
 const ProductDetailsPage = async ({ params }) => {
