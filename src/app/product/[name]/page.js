@@ -102,6 +102,7 @@ const ProductDetails = () => {
             ← Go Back
           </button>
 
+       {product && 
           <div className="grid md:grid-cols-2 gap-3">
             {/* Product Image */}
             <div className="">
@@ -184,7 +185,7 @@ const ProductDetails = () => {
                 ))}
               </ol> */}
             </div>
-          </div>
+          </div> }
         </div>
       </div>
     </>
