@@ -97,7 +97,7 @@ export async function generateMetadata({ params }) {
       url: recipeUrl,
       type: "website",
       siteName: "Your Recipe Site",
-      images: imageUrl
+      images: "https://cdn.dummyjson.com/recipe-images/1.webp"
         ? [
             {
               // url: imageUrl,
