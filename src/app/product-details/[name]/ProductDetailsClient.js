@@ -84,40 +84,14 @@ const ProductDetailsClient = ({ product, tags, moreRec }) => {
   };
 
   const handleProductClick = (recipe) => {
-    setProductData(recipe); // Set the clicked recipe's data into the product state
-    const encodedName = formatProductNameForURL(recipe.name); // Format the recipe name for URL
-    router.push(`/product-details/${encodedName}`); // Update the URL
+    setProductData(recipe); 
+    const encodedName = formatProductNameForURL(recipe.name); 
+    router.push(`/product-details/${encodedName}`);
   };
-
-  // useEffect(() => {
-  //   setProduct(productData);
-  //   setTags(tagsData);
-  //   setMoreRec(moreRecData);
-  //   setRecipes(recipesData); // Add this if recipesData is used
-  // }, [productData, tagsData, moreRecData, recipesData]);
-
-  // if (!product) {
-  //   return <div>Product not found</div>;
-  // }
-  // const fetchProductsByCategory = async (category) => {
-  //   try {
-  //     const res = await fetch(
-  //       `https://dummyjson.com/products/category/${category}`
-  //     );
-  //     const data = await res.json();
-  //     if (data.products && data.products.length > 0) {
-  //       setFilteredProducts(data.products);
-  //       setActiveCat(category);
-  //     } else {
-  //       setFilteredProducts([]); // Clear the list if no products are found
-  //       toast.info("No products found in this category.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //     toast.error("Failed to fetch products.");
-  //   }
-  // };
-
+  
+  useEffect(() => {
+    setProductData(product);
+  }, [product]);
   // Fetch recipes based on activeTag; if none, fetch all recipes
   useEffect(() => {
     const fetchRecipesByTag = async () => {
@@ -573,7 +547,7 @@ const ProductDetailsClient = ({ product, tags, moreRec }) => {
                 </div>
               )}
               {/* Sidebar - Visible only on meduim and mobile*/}
-              {/* <aside className="lg:hidden block w-full mt-10">
+              <aside className="block lg:hidden w-full mt-10">
                 <div className="py-5 px-7 mb-[30px] shadow bg-white">
                   <h2 className="text-[18px] text-[#27272f] font-semibold mb-[18px] pb-[12px] border-b">
                     PRODUCT CATEGORIES
@@ -657,7 +631,7 @@ const ProductDetailsClient = ({ product, tags, moreRec }) => {
                     </div>
                   )}
                 </div>
-              </aside> */}
+              </aside>
             </div>
           </div>
         </div>
