@@ -100,8 +100,10 @@ export async function generateMetadata({ params }) {
       images: imageUrl
         ? [
             {
-              url: imageUrl,
-              secure_url: imageUrl,
+              // url: imageUrl,
+              // secure_url: imageUrl,
+              url: "https://cdn.dummyjson.com/recipe-images/1.webp",
+          secure_url: "https://cdn.dummyjson.com/recipe-images/1.webp",
               width: 1200,
               height: 630,
               alt: recipe.name,
@@ -113,7 +115,8 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title: recipe.name,
       description: `Learn more about ${recipe.name}, a delicious ${recipe.cuisine} cuisine recipe.`,
-      images: imageUrl ? [imageUrl] : [],
+      // images: imageUrl ? [imageUrl] : [],
+      images: ["https://cdn.dummyjson.com/recipe-images/1.webp"],
       type: "website",
     },
   };
